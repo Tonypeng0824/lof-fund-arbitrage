@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# 数据库文件（可选：如果需要版本控制，取消注释）
+# *.db
+
+# 日志文件
+*.log
+logs/
+
+# 临时文件
+tmp/
+temp/
+*.tmp
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 敏感数据
+.env
+*.json.key
+*.pem
+*.key
+
+# 生成的报告（可选：如果需要保留历史报告，注释掉）
+# arbitrage_report_*.html
+# github-pages/arbitrage_report_*.html
+
+# 数据缓存
+data/tdx_overseas.json
+*.cache
+
+# 系统文件
+.DS_Store
+Thumbs.db
