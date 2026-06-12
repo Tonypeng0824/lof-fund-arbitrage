@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>套利渠道全景报告（增强版 v2） - 2026-06-11 11:11</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f2f5; color: #1e293b; line-height: 1.6; }
+.container { max-width: 1500px; margin: 0 auto; padding: 20px; }
+
+.header { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0ea5e9 100%); color: white; padding: 36px 30px; text-align: center; border-radius: 16px; margin-bottom: 24px; position: relative; overflow: hidden; }
+.header::before { content:''; position:absolute; top:-50%; right:-10%; width:300px; height:300px; background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%); border-radius:50%; }
+.header h1 { font-size: 2em; margin-bottom: 6px; position: relative; }
+.header p { opacity: 0.85; font-size: 0.9em; position: relative; }
+
+.stats-row { display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
+.stat-card { flex: 1; min-width: 150px; background: white; border-radius: 12px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); text-align: center; border-top: 3px solid #e2e8f0; }
+.stat-card.hot { border-top-color: #ef4444; }
+.stat-card.green { border-top-color: #22c55e; }
+.stat-card.blue { border-top-color: #3b82f6; }
+.stat-card.purple { border-top-color: #8b5cf6; }
+.stat-card .num { font-size: 1.8em; font-weight: 700; }
+.stat-card .label { font-size: 0.82em; color: #64748b; margin-top: 2px; }
+
+.section-title { font-size: 1.3em; font-weight: 700; color: #1e293b; margin: 30px 0 16px 0; padding-left: 12px; border-left: 4px solid #3b82f6; }
+.section-title .sub { font-size: 0.7em; color: #64748b; font-weight: 400; margin-left: 8px; }
+
+/* 列名头 */
+.opp-header { background: #f1f5f9; border-radius: 10px; padding: 14px 24px; display: grid; grid-template-columns: 45px 1.5fr 70px 140px 110px 80px 80px; gap: 16px; align-items: center; font-weight: 600; font-size: 0.82em; color: #475569; border: 1px solid #e2e8f0; }
+.opp-header div { text-align: left; }
+.opp-header .col-center { text-align: center; }
+
+.opportunity-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
+.opp-card { background: white; border-radius: 12px; padding: 18px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); display: grid; grid-template-columns: 45px 1.5fr 70px 140px 110px 80px 80px; gap: 16px; align-items: center; transition: all 0.2s; border-left: 4px solid #e2e8f0; }
+.opp-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-1px); }
+.opp-card.urgent { border-left-color: #ef4444; background: #fef2f2; }
+.opp-card.good { border-left-color: #22c55e; background: #f0fdf4; }
+.opp-card.normal { border-left-color: #3b82f6; }
+
+.opp-rank { font-size: 1.3em; font-weight: 800; color: #94a3b8; text-align: center; }
+.opp-rank.top3 { color: #f59e0b; }
+.opp-name { font-weight: 600; font-size: 0.92em; }
+.opp-code { font-size: 0.78em; color: #64748b; }
+.opp-quota { font-size: 0.82em; color: #475569; line-height: 1.5; }
+.opp-return { font-weight: 700; color: #059669; font-size: 0.88em; }
+.opp-risk { }
+
+.table-wrapper { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 1100px; }
+th { background: #f8fafc; padding: 12px 10px; text-align: left; font-size: 0.78em; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0; white-space: nowrap; cursor: pointer; }
+td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; font-size: 0.85em; }
+tr:hover { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.76em; font-weight: 600; }
+.footer { text-align: center; padding: 40px 20px; color: #94a3b8; font-size: 0.85em; }
+
+.limit-tag { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 0.72em; font-weight: 600; }
+.limit-open { background: #dcfce7; color: #16a34a; }
+.limit-unknown { background: #fef3c7; color: #d97706; }
+
+@media (max-width: 768px) {
+    .opp-card { grid-template-columns: 1fr 1fr; gap: 8px; padding: 14px; }
+    .opp-header { display: none; }
+    .stats-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+    <h1>📊 套利渠道全景报告（实时版）</h1>
+    <p>数据来源：东方财富 · fundgz · fundf10 · 通达信 &nbsp;|&nbsp; 更新：2026-06-11 11:11</p>
+    <p style="font-size:0.82em;margin-top:8px;opacity:0.7">⚠️ 仅展示有实际可操作标的的机会，不含纯知识性渠道</p>
+</div>
+
+<div class="stats-row">
+    <div class="stat-card hot"><div class="num" style="color:#ef4444">10</div><div class="label">🔥 今日可操作标的</div></div>
+    <div class="stat-card green"><div class="num" style="color:#22c55e">2</div><div class="label">🛡️ 低风险标的</div></div>
+    <div class="stat-card blue"><div class="num" style="color:#3b82f6">10</div><div class="label">📋 本次展示</div></div>
+    <div class="stat-card purple"><div class="num" style="color:#8b5cf6">20</div><div class="label">🏗️ 知识库渠道</div></div>
+</div>
+
+<!-- ===== 第一部分：可操作标的排名列表（含列名） ===== -->
+<div class="section-title">🔥 当日可操作标的排名 <span class="sub">仅含实际标的，按机会从高到低</span></div>
+
+<div class="opp-header">
+    <div class="col-center">排名</div>
+    <div>标的名称 / 代码 / 类型</div>
+    <div class="col-center">类型</div>
+    <div>额度 / 限购</div>
+    <div>预计收益</div>
+    <div>风险</div>
+    <div>操作</div>
+</div>
+
+<div class="opportunity-list">
+
+<div class="opp-card good">
+    <div class="opp-rank top3">#1</div>
+    <div>
+        <div class="opp-name">海外科技LOF <span style="font-size:0.8em;color:#64748b"><span style="color:#ef4444;font-weight:700">-3.2%</span></span></div>
+        <div class="opp-code">代码: 501312 <span class="limit-tag limit-unknown">限大额</span></div>
+        <div style="margin-top:3px;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#22c55e20;color:#22c55e;border:1px solid #22c55e40">LOF折价</span></div>
+    </div>
+    <div style="text-align:center;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#22c55e20;color:#22c55e;border:1px solid #22c55e40">LOF折价</span></div>
+    <div class="opp-quota">单账户100元起<br><span style="font-size:0.75em;color:#64748b">💰 申购0.12% | 赎回0.0% | 年费1.00%+0.20%</span></div>
+    <div class="opp-return">2.7%~3.2%/次</div>
+    <div class="opp-risk"><span class="badge" style="background:#84cc1620;color:#84cc16">低</span></div>
+    <div>
+        <details>
+            <summary style="cursor:pointer;color:#3b82f6;font-size:0.82em">场内申购→T+2到账→T+3场内卖出...</summary>
+            <div style="margin-top:8px;font-size:0.8em;color:#475569;line-height:1.8;padding:8px;background:#f8fafc;border-radius:6px;">
+                <div>📝 <b>操作</b>: 场内申购→T+2到账→T+3场内卖出</div>
+                <div>⚠️ <b>风险</b>: T+2溢价消失(杀溢价)、流动性不足</div>
+                <div>💵 <b>价格</b>: 2.221</div>
+                <div>📊 <b>成交额</b>: 6744.0万</div>
+            </div>
+        </details>
+    </div>
+</div>
+
+<div class="opp-card good">
+    <div class="opp-rank top3">#2</div>
+    <div>
+        <div class="opp-name">山玻转债 <span style="font-size:0.8em;color:#64748b">-1.1%</span></div>
+        <div class="opp-code">代码: 111001 </div>
+        <div style="margin-top:3px;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    </div>
+    <div style="text-align:center;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    <div class="opp-quota">现价 193.79元，一手约1938元</div>
+    <div class="opp-return">10%~30%</div>
+    <div class="opp-risk"><span class="badge" style="background:#f59e0b20;color:#f59e0b">中</span></div>
+    <div>
+        <details>
+            <summary style="cursor:pointer;color:#3b82f6;font-size:0.82em">低价买入持有，等待强赎或到期兑付...</summary>
+            <div style="margin-top:8px;font-size:0.8em;color:#475569;line-height:1.8;padding:8px;background:#f8fafc;border-radius:6px;">
+                <div>📝 <b>操作</b>: 低价买入持有，等待强赎或到期兑付</div>
+                <div>⚠️ <b>风险</b>: 正股下跌、信用风险(极低)</div>
+                <div>💵 <b>价格</b>: 193.79</div>
+                <div>📊 <b>成交额</b>: 39.37万</div>
+            </div>
+        </details>
+    </div>
+</div>
+
+<div class="opp-card good">
+    <div class="opp-rank top3">#3</div>
+    <div>
+        <div class="opp-name">艾迪转债 <span style="font-size:0.8em;color:#64748b">-0.1%</span></div>
+        <div class="opp-code">代码: 113644 </div>
+        <div style="margin-top:3px;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    </div>
+    <div style="text-align:center;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    <div class="opp-quota">现价 124.84元，一手约1248元</div>
+    <div class="opp-return">10%~30%</div>
+    <div class="opp-risk"><span class="badge" style="background:#f59e0b20;color:#f59e0b">中</span></div>
+    <div>
+        <details>
+            <summary style="cursor:pointer;color:#3b82f6;font-size:0.82em">低价买入持有，等待强赎或到期兑付...</summary>
+            <div style="margin-top:8px;font-size:0.8em;color:#475569;line-height:1.8;padding:8px;background:#f8fafc;border-radius:6px;">
+                <div>📝 <b>操作</b>: 低价买入持有，等待强赎或到期兑付</div>
+                <div>⚠️ <b>风险</b>: 正股下跌、信用风险(极低)</div>
+                <div>💵 <b>价格</b>: 124.84</div>
+                <div>📊 <b>成交额</b>: 1.23万</div>
+            </div>
+        </details>
+    </div>
+</div>
+
+<div class="opp-card good">
+    <div class="opp-rank ">#4</div>
+    <div>
+        <div class="opp-name">利柏转债 <span style="font-size:0.8em;color:#64748b">-0.1%</span></div>
+        <div class="opp-code">代码: 111023 </div>
+        <div style="margin-top:3px;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    </div>
+    <div style="text-align:center;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    <div class="opp-quota">现价 114.85元，一手约1148元</div>
+    <div class="opp-return">10%~30%</div>
+    <div class="opp-risk"><span class="badge" style="background:#f59e0b20;color:#f59e0b">中</span></div>
+    <div>
+        <details>
+            <summary style="cursor:pointer;color:#3b82f6;font-size:0.82em">低价买入持有，等待强赎或到期兑付...</summary>
+            <div style="margin-top:8px;font-size:0.8em;color:#475569;line-height:1.8;padding:8px;background:#f8fafc;border-radius:6px;">
+                <div>📝 <b>操作</b>: 低价买入持有，等待强赎或到期兑付</div>
+                <div>⚠️ <b>风险</b>: 正股下跌、信用风险(极低)</div>
+                <div>💵 <b>价格</b>: 114.85</div>
+                <div>📊 <b>成交额</b>: 1.08万</div>
+            </div>
+        </details>
+    </div>
+</div>
+
+<div class="opp-card good">
+    <div class="opp-rank ">#5</div>
+    <div>
+        <div class="opp-name">鹤21转债 <span style="font-size:0.8em;color:#64748b">+0.3%</span></div>
+        <div class="opp-code">代码: 113632 </div>
+        <div style="margin-top:3px;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    </div>
+    <div style="text-align:center;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    <div class="opp-quota">现价 138.38元，一手约1384元</div>
+    <div class="opp-return">10%~30%</div>
+    <div class="opp-risk"><span class="badge" style="background:#f59e0b20;color:#f59e0b">中</span></div>
+    <div>
+        <details>
+            <summary style="cursor:pointer;color:#3b82f6;font-size:0.82em">低价买入持有，等待强赎或到期兑付...</summary>
+            <div style="margin-top:8px;font-size:0.8em;color:#475569;line-height:1.8;padding:8px;background:#f8fafc;border-radius:6px;">
+                <div>📝 <b>操作</b>: 低价买入持有，等待强赎或到期兑付</div>
+                <div>⚠️ <b>风险</b>: 正股下跌、信用风险(极低)</div>
+                <div>💵 <b>价格</b>: 138.38</div>
+                <div>📊 <b>成交额</b>: 0.91万</div>
+            </div>
+        </details>
+    </div>
+</div>
+
+<div class="opp-card good">
+    <div class="opp-rank ">#6</div>
+    <div>
+        <div class="opp-name">奕瑞转债 <span style="font-size:0.8em;color:#64748b">+0.4%</span></div>
+        <div class="opp-code">代码: 118025 </div>
+        <div style="margin-top:3px;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    </div>
+    <div style="text-align:center;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    <div class="opp-quota">现价 143.1元，一手约1431元</div>
+    <div class="opp-return">10%~30%</div>
+    <div class="opp-risk"><span class="badge" style="background:#f59e0b20;color:#f59e0b">中</span></div>
+    <div>
+        <details>
+            <summary style="cursor:pointer;color:#3b82f6;font-size:0.82em">低价买入持有，等待强赎或到期兑付...</summary>
+            <div style="margin-top:8px;font-size:0.8em;color:#475569;line-height:1.8;padding:8px;background:#f8fafc;border-radius:6px;">
+                <div>📝 <b>操作</b>: 低价买入持有，等待强赎或到期兑付</div>
+                <div>⚠️ <b>风险</b>: 正股下跌、信用风险(极低)</div>
+                <div>💵 <b>价格</b>: 143.1</div>
+                <div>📊 <b>成交额</b>: 2.45万</div>
+            </div>
+        </details>
+    </div>
+</div>
+
+<div class="opp-card good">
+    <div class="opp-rank ">#7</div>
+    <div>
+        <div class="opp-name">瑞科转债 <span style="font-size:0.8em;color:#64748b">+0.5%</span></div>
+        <div class="opp-code">代码: 118018 </div>
+        <div style="margin-top:3px;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    </div>
+    <div style="text-align:center;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    <div class="opp-quota">现价 189.66元，一手约1897元</div>
+    <div class="opp-return">10%~30%</div>
+    <div class="opp-risk"><span class="badge" style="background:#f59e0b20;color:#f59e0b">中</span></div>
+    <div>
+        <details>
+            <summary style="cursor:pointer;color:#3b82f6;font-size:0.82em">低价买入持有，等待强赎或到期兑付...</summary>
+            <div style="margin-top:8px;font-size:0.8em;color:#475569;line-height:1.8;padding:8px;background:#f8fafc;border-radius:6px;">
+                <div>📝 <b>操作</b>: 低价买入持有，等待强赎或到期兑付</div>
+                <div>⚠️ <b>风险</b>: 正股下跌、信用风险(极低)</div>
+                <div>💵 <b>价格</b>: 189.66</div>
+                <div>📊 <b>成交额</b>: 23.02万</div>
+            </div>
+        </details>
+    </div>
+</div>
+
+<div class="opp-card good">
+    <div class="opp-rank ">#8</div>
+    <div>
+        <div class="opp-name">镇洋转债 <span style="font-size:0.8em;color:#64748b">+0.7%</span></div>
+        <div class="opp-code">代码: 113681 </div>
+        <div style="margin-top:3px;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    </div>
+    <div style="text-align:center;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    <div class="opp-quota">现价 135.69元，一手约1357元</div>
+    <div class="opp-return">10%~30%</div>
+    <div class="opp-risk"><span class="badge" style="background:#f59e0b20;color:#f59e0b">中</span></div>
+    <div>
+        <details>
+            <summary style="cursor:pointer;color:#3b82f6;font-size:0.82em">低价买入持有，等待强赎或到期兑付...</summary>
+            <div style="margin-top:8px;font-size:0.8em;color:#475569;line-height:1.8;padding:8px;background:#f8fafc;border-radius:6px;">
+                <div>📝 <b>操作</b>: 低价买入持有，等待强赎或到期兑付</div>
+                <div>⚠️ <b>风险</b>: 正股下跌、信用风险(极低)</div>
+                <div>💵 <b>价格</b>: 135.69</div>
+                <div>📊 <b>成交额</b>: 0.44万</div>
+            </div>
+        </details>
+    </div>
+</div>
+
+<div class="opp-card good">
+    <div class="opp-rank ">#9</div>
+    <div>
+        <div class="opp-name">银微转债 <span style="font-size:0.8em;color:#64748b">+1.5%</span></div>
+        <div class="opp-code">代码: 118011 </div>
+        <div style="margin-top:3px;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    </div>
+    <div style="text-align:center;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#8b5cf620;color:#8b5cf6;border:1px solid #8b5cf640">可转债低价</span></div>
+    <div class="opp-quota">现价 145.61元，一手约1456元</div>
+    <div class="opp-return">10%~30%</div>
+    <div class="opp-risk"><span class="badge" style="background:#f59e0b20;color:#f59e0b">中</span></div>
+    <div>
+        <details>
+            <summary style="cursor:pointer;color:#3b82f6;font-size:0.82em">低价买入持有，等待强赎或到期兑付...</summary>
+            <div style="margin-top:8px;font-size:0.8em;color:#475569;line-height:1.8;padding:8px;background:#f8fafc;border-radius:6px;">
+                <div>📝 <b>操作</b>: 低价买入持有，等待强赎或到期兑付</div>
+                <div>⚠️ <b>风险</b>: 正股下跌、信用风险(极低)</div>
+                <div>💵 <b>价格</b>: 145.61</div>
+                <div>📊 <b>成交额</b>: 4.23万</div>
+            </div>
+        </details>
+    </div>
+</div>
+
+<div class="opp-card normal">
+    <div class="opp-rank ">#10</div>
+    <div>
+        <div class="opp-name">抗通胀LOF <span style="font-size:0.8em;color:#64748b">-2.3%</span></div>
+        <div class="opp-code">代码: 161815 <span class="limit-tag limit-open">✓ 不限购</span></div>
+        <div style="margin-top:3px;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#22c55e20;color:#22c55e;border:1px solid #22c55e40">LOF折价</span></div>
+    </div>
+    <div style="text-align:center;"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75em;background:#22c55e20;color:#22c55e;border:1px solid #22c55e40">LOF折价</span></div>
+    <div class="opp-quota">不限购<br><span style="font-size:0.75em;color:#64748b">💰 申购0.16% | 赎回0.0% | 年费1.80%+0.35%</span></div>
+    <div class="opp-return">1.2%~2.0%/次</div>
+    <div class="opp-risk"><span class="badge" style="background:#84cc1620;color:#84cc16">低</span></div>
+    <div>
+        <details>
+            <summary style="cursor:pointer;color:#3b82f6;font-size:0.82em">场内申购→T+2到账→T+3场内卖出...</summary>
+            <div style="margin-top:8px;font-size:0.8em;color:#475569;line-height:1.8;padding:8px;background:#f8fafc;border-radius:6px;">
+                <div>📝 <b>操作</b>: 场内申购→T+2到账→T+3场内卖出</div>
+                <div>⚠️ <b>风险</b>: T+2溢价消失(杀溢价)、流动性不足</div>
+                <div>💵 <b>价格</b>: 1.046</div>
+                <div>📊 <b>成交额</b>: 498.0万</div>
+            </div>
+        </details>
+    </div>
+</div>
+
+</div>
+
+<div class="section-title" style="border-left-color:#ef4444">⚠️ QDII ETF高溢价风险提示 <span class="sub">非套利机会 — 不列入可操作排名</span></div><div style="background:#fef2f2;border:1px solid #fecaca;border-radius:12px;padding:20px 24px;margin-bottom:24px"><p style="color:#991b1b;font-weight:600;margin-bottom:12px">以下QDII ETF存在高溢价，但<b>溢价≠套利</b>：</p><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px"><div style="flex:1;min-width:180px;background:white;border-radius:8px;padding:12px;border:1px solid #fecaca"><div style="font-weight:600;font-size:0.9em">纳指ETF国泰(513100)</div><div style="color:#991b1b;font-size:1.1em;font-weight:700;margin:4px 0">溢价 7.1%</div><div style="font-size:0.78em;color:#64748b">溢价收窄导致亏损，非传统套利。跟踪NDX(纳斯达克100)</div></div><div style="flex:1;min-width:180px;background:white;border-radius:8px;padding:12px;border:1px solid #fecaca"><div style="font-weight:600;font-size:0.9em">纳指ETF广发(159941)</div><div style="color:#991b1b;font-size:1.1em;font-weight:700;margin:4px 0">溢价 6.7%</div><div style="font-size:0.78em;color:#64748b">溢价收窄导致亏损，非传统套利。跟踪NDX(纳斯达克100)</div></div><div style="flex:1;min-width:180px;background:white;border-radius:8px;padding:12px;border:1px solid #fecaca"><div style="font-weight:600;font-size:0.9em">纳指科技ETF景顺(159509)</div><div style="color:#991b1b;font-size:1.1em;font-weight:700;margin:4px 0">溢价 19.2%</div><div style="font-size:0.78em;color:#64748b">溢价收窄导致亏损，非传统套利。跟踪NDXTMC(纳指科技)</div></div></div><p style="color:#991b1b;font-size:0.85em;line-height:1.8">🔴 散户无法做ETF申赎套利（最低申购份额50万份起），溢价可能随时大幅收窄导致本金亏损。<br>🔴 19%溢价=每买100元额外多付16元入场费，不是"打折买入"而是"高价入场券"。<br>🔴 仅当底层资产(纳指科技指数)涨幅超过溢价收缩幅度时才有可能盈利。<br>🔴 <b>已从可操作套利排名中移除</b>，仅供风险意识参考。</p></div>
+<!-- ===== 第二部分：完整渠道知识库 ===== -->
+<div class="section-title">📋 套利渠道知识库 <span class="sub">共 {len(base_channels)} 个渠道（通用参考，非实时标的）</span></div>
+
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+    <th>#</th><th>渠道名称</th><th>分类</th>
+    <th>难度</th><th>额度范围</th><th>年化收益</th>
+    <th>风险</th><th>频率</th><th>简介</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+    <td>1</td>
+    <td style="font-weight:600">LOF基金溢价套利（一拖六）</td>
+    <td><span style="font-size:0.8em;color:#64748b">基金套利</span></td>
+    <td><span class="badge" style="background:#84cc1620;color:#84cc16;border-left:3px solid #84cc16">低</span></td>
+    <td style="font-size:0.82em">单账户100元，一拖六可达600元/日；需1折申购费券商</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#84cc1620;color:#84cc16;border-left:3px solid #84cc16">低</span></td>
+    <td>每日</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">利用LOF基金场内市价高于场外净值的价差获利。申购按净值，卖出按市价，赚取溢价差。核心标的：标普500LOF、纳指LOF、黄金LOF等跨境品种。2025年黄金L...</td>
+</tr>
+
+<tr>
+    <td>2</td>
+    <td style="font-weight:600">可转债打新套利</td>
+    <td><span style="font-size:0.8em;color:#64748b">打新套利</span></td>
+    <td><span class="badge" style="background:#84cc1620;color:#84cc16;border-left:3px solid #84cc16">低</span></td>
+    <td style="font-size:0.82em">每签1000元，2025年单账户收益约1000-3000元/年</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#22c55e20;color:#22c55e;border-left:3px solid #22c55e">极低</span></td>
+    <td>不定期（跟随发行）</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">申购新发行可转债，上市首日卖出赚取差价。目前需满足2年交易经验+10万元资产门槛。2025年打新人数减少使中签率回升。...</td>
+</tr>
+
+<tr>
+    <td>3</td>
+    <td style="font-weight:600">A股打新套利（市值配售）</td>
+    <td><span style="font-size:0.8em;color:#64748b">打新套利</span></td>
+    <td><span class="badge" style="background:#84cc1620;color:#84cc16;border-left:3px solid #84cc16">低</span></td>
+    <td style="font-size:0.82em">需持仓市值1万+才能参与</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#22c55e20;color:#22c55e;border-left:3px solid #22c55e">极低</span></td>
+    <td>不定期</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">持有A股市值参与新股申购，中签后上市首日卖出。虽然中签率极低，但一旦中签收益可观(平均每签5000-15000元)。适合长期持股者顺便参与。...</td>
+</tr>
+
+<tr>
+    <td>4</td>
+    <td style="font-weight:600">国债逆回购假日套利</td>
+    <td><span style="font-size:0.8em;color:#64748b">现金管理</span></td>
+    <td><span class="badge" style="background:#22c55e20;color:#22c55e;border-left:3px solid #22c55e">极低</span></td>
+    <td style="font-size:0.82em">1000元起，上不封顶</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#22c55e20;color:#22c55e;border-left:3px solid #22c55e">极低</span></td>
+    <td>每日（节假日重点）</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">节假日/季末前操作国债逆回购，利用计息规则获取额外天数收益。可结合货币基金实现一鱼两吃。...</td>
+</tr>
+
+<tr>
+    <td>5</td>
+    <td style="font-weight:600">港股打新套利</td>
+    <td><span style="font-size:0.8em;color:#64748b">打新套利</span></td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td style="font-size:0.82em">建议每账户1-2万港币，一手中签率高</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td>不定期（跟随IPO）</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">2025年港交所IPO融资额全球第一，约2800亿港元。多账户现金打新无需融资利息，FINI平台缩短冻结期至2个工作日。2025年新消费、茶饮、潮玩等热门IPO...</td>
+</tr>
+
+<tr>
+    <td>6</td>
+    <td style="font-weight:600">QDII基金折溢价套利</td>
+    <td><span style="font-size:0.8em;color:#64748b">基金套利</span></td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td style="font-size:0.82em">单只ETF最低100份</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td>每日</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">跨境ETF/QDII基金因外汇额度限制常出现持续溢价。通过IOPV监控溢价率，溢价时买入成分申购或折价时买入赎回。典型标的：纳指ETF、标普ETF、日经ETF等...</td>
+</tr>
+
+<tr>
+    <td>7</td>
+    <td style="font-weight:600">REITs打新套利</td>
+    <td><span style="font-size:0.8em;color:#64748b">打新套利</span></td>
+    <td><span class="badge" style="background:#84cc1620;color:#84cc16;border-left:3px solid #84cc16">低</span></td>
+    <td style="font-size:0.82em">配售比例极低(0.25%)，认购100万可能获配2500元</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#84cc1620;color:#84cc16;border-left:3px solid #84cc16">低</span></td>
+    <td>不定期（跟随发行）</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">2025年REITs市场持续火爆，华夏金隅智造工场REIT公众认购倍数288倍，配售比例低至0.25%。可与北交所打新时间窗口错开操作。...</td>
+</tr>
+
+<tr>
+    <td>8</td>
+    <td style="font-weight:600">可转债折价转股套利</td>
+    <td><span style="font-size:0.8em;color:#64748b">债券套利</span></td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td style="font-size:0.82em">取决于转债余额和折价幅度</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td>每日</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">当可转债折价(市价低于转股价值)时，买入转债→转股→卖出正股，赚取折价差。建议在交易时间内完成全部操作，避免隔夜溢价率修复。...</td>
+</tr>
+
+<tr>
+    <td>9</td>
+    <td style="font-weight:600">加密货币搬砖套利</td>
+    <td><span style="font-size:0.8em;color:#64748b">数字货币</span></td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td style="font-size:0.82em">USDT本位，小资金也可参与</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#f9731620;color:#f97316;border-left:3px solid #f97316">高</span></td>
+    <td>每日</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">利用不同交易所同一币种的价格差异搬砖套利。使用CCXT库可实时监控。USDT跨所搬砖是最常见的低门槛方式。闪电贷套利是高级玩法(O(1)资金门槛但需要智能合约开...</td>
+</tr>
+
+<tr>
+    <td>10</td>
+    <td style="font-weight:600">LOF基金折价套利</td>
+    <td><span style="font-size:0.8em;color:#64748b">基金套利</span></td>
+    <td><span class="badge" style="background:#84cc1620;color:#84cc16;border-left:3px solid #84cc16">低</span></td>
+    <td style="font-size:0.82em">折价>赎回费+交易成本即可操作</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#84cc1620;color:#84cc16;border-left:3px solid #84cc16">低</span></td>
+    <td>每日</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">当LOF基金场内价格低于净值时(折价)，场内买入后按净值赎回获利。赎回费通常是成本关键(持有<7天1.5%，>7天0.5%)。适合有底仓的投资者顺便操作。...</td>
+</tr>
+
+<tr>
+    <td>11</td>
+    <td style="font-weight:600">北交所打新套利</td>
+    <td><span style="font-size:0.8em;color:#64748b">打新套利</span></td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td style="font-size:0.82em">50万资产门槛，大资金占优；年化约3-5%无风险收益</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#22c55e20;color:#22c55e;border-left:3px solid #22c55e">极低</span></td>
+    <td>不定期（跟随发行）</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">北交所打新无需持有股票市值，现金申购按比例配售。资金冻结2天，适合与逆回购/货基组合使用提升整体收益。2025年收益率走低但仍是确定性较高的大资金低风险套利。...</td>
+</tr>
+
+<tr>
+    <td>12</td>
+    <td style="font-weight:600">要约收购套利</td>
+    <td><span style="font-size:0.8em;color:#64748b">并购套利</span></td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td style="font-size:0.82em">取决于要约规模，建议分散多标的</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td>不定期</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">当上市公司发布要约收购，若市价低于要约价，买入后预受要约赚取价差。2025年是要约收购大年，多家公司涉及要约(抚顺特钢、上纬新材等)。...</td>
+</tr>
+
+<tr>
+    <td>13</td>
+    <td style="font-weight:600">货币基金申赎套利（场内货基）</td>
+    <td><span style="font-size:0.8em;color:#64748b">现金管理</span></td>
+    <td><span class="badge" style="background:#22c55e20;color:#22c55e;border-left:3px solid #22c55e">极低</span></td>
+    <td style="font-size:0.82em">场内货基一手约1万元</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#22c55e20;color:#22c55e;border-left:3px solid #22c55e">极低</span></td>
+    <td>每日</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">场内货币ETF有时出现折价，买入后赎回赚取价差；或利用计息规则(算头不算尾等)获取额外利息。适合资金闲置时的现金管理增强。...</td>
+</tr>
+
+<tr>
+    <td>14</td>
+    <td style="font-weight:600">AH股溢价套利</td>
+    <td><span style="font-size:0.8em;color:#64748b">跨境套利</span></td>
+    <td><span class="badge" style="background:#f9731620;color:#f97316;border-left:3px solid #f97316">高</span></td>
+    <td style="font-size:0.82em">需双市场账户，资金门槛高</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#f9731620;color:#f97316;border-left:3px solid #f97316">高</span></td>
+    <td>不定期</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">利用同一公司A股和H股的价格差异套利。A股通常对H股溢价(恒生AH溢价指数130-150区间波动)。当溢价率极端偏离均值时有回归机会。可做多H股做空A股(或通过...</td>
+</tr>
+
+<tr>
+    <td>15</td>
+    <td style="font-weight:600">可转债轮动套利（量化）</td>
+    <td><span style="font-size:0.8em;color:#64748b">债券套利</span></td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td style="font-size:0.82em">建议10万+用于分散持仓</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td>每日/每周</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">通过量化策略轮动持有可转债组合：双低轮动(低价格+低溢价)、三低轮动等。有债底保护，下有保底、上不封顶。集思录等权指数2019-2025年的高收益验证策略有效性...</td>
+</tr>
+
+<tr>
+    <td>16</td>
+    <td style="font-weight:600">吸收合并/现金选择权套利</td>
+    <td><span style="font-size:0.8em;color:#64748b">并购套利</span></td>
+    <td><span class="badge" style="background:#f9731620;color:#f97316;border-left:3px solid #f97316">高</span></td>
+    <td style="font-size:0.82em">如中金三合一（信达证券现金选择权17.79元）</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td>不定期</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">吸收合并中，异议股东有现金选择权。买入价格低于现金选择权价格时形成套利空间。如中金公司三合一：信达证券现价约17.3元，保底价17.79元，约3%套利空间。...</td>
+</tr>
+
+<tr>
+    <td>17</td>
+    <td style="font-weight:600">可转债配债套利（沪市1手党）</td>
+    <td><span style="font-size:0.8em;color:#64748b">债券套利</span></td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td style="font-size:0.82em">需要买入正股参与配债</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td>不定期</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">在转债发行前买入正股获得配售权，沪市最小配售单位为1手(1000元)，可通过精确计算最小持股数参与配债。需承担正股波动风险。...</td>
+</tr>
+
+<tr>
+    <td>18</td>
+    <td style="font-weight:600">股指期货期现套利</td>
+    <td><span style="font-size:0.8em;color:#64748b">衍生品套利</span></td>
+    <td><span class="badge" style="background:#f9731620;color:#f97316;border-left:3px solid #f97316">高</span></td>
+    <td style="font-size:0.82em">1手IF约100万名义本金</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td>每月（移仓换月）</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">利用股指期货与现货指数的价差套利。常见策略：吃贴水——做多IC/IM(中证500/1000期货通常贴水)，滚动换月获取基差收益。集思录上有人用此策略年化增强5-...</td>
+</tr>
+
+<tr>
+    <td>19</td>
+    <td style="font-weight:600">ETF申赎套利</td>
+    <td><span style="font-size:0.8em;color:#64748b">基金套利</span></td>
+    <td><span class="badge" style="background:#f9731620;color:#f97316;border-left:3px solid #f97316">高</span></td>
+    <td style="font-size:0.82em">ETF最小申购赎回单位通常几十万至百万份</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td>每日</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">ETF有实时IOPV(实时参考净值)，当市价与IOPV偏离时可通过申购/赎回篮子套利。需要专业交易软件(QMT/迅投)和大量资金。集思录上有部分人用迅投QMT自...</td>
+</tr>
+
+<tr>
+    <td>20</td>
+    <td style="font-weight:600">期权套利（盒式/平价/波动率）</td>
+    <td><span style="font-size:0.8em;color:#64748b">衍生品套利</span></td>
+    <td><span class="badge" style="background:#ef444420;color:#ef4444;border-left:3px solid #ef4444">极高</span></td>
+    <td style="font-size:0.82em">需期权模拟交易经验+50万门槛</td>
+    <td style="font-weight:600;color:#059669">%~%</td>
+    <td><span class="badge" style="background:#f59e0b20;color:#f59e0b;border-left:3px solid #f59e0b">中</span></td>
+    <td>每日</td>
+    <td style="font-size:0.82em;color:#475569;max-width:250px">利用期权定价偏离(Put-Call Parity偏离)进行盒式套利(Box Spread)获取类固收收益；或做多/做空波动率进行波动率套利。需要专业定价模型。...</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<div class="footer">
+    <p>📊 套利渠道追踪系统 v2 &copy; 2026 | 每日自动更新</p>
+    <p style="font-size:0.8em;margin-top:4px">数据来源：东方财富 push2 API | fundgz | fundf10 | 通达信 tdx-connector (QDII ETF)</p>
+    <p style="font-size:0.8em;color:#ef4444">⚠️ 免责声明：本报告仅供信息参考，不构成任何投资建议。</p>
+</div>
+
+</div>
+</body>
+</html>
