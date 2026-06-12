@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>重点基金监控 · LOF套利终端</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0a0e14; color:#e6e8ec; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+  .container { max-width:1200px; margin:0 auto; padding:20px; }
+  .header { display:flex; justify-content:space-between; align-items:center; padding:20px 0; border-bottom:1px solid #1e2a3a; margin-bottom:20px; }
+  .header h1 { font-size:22px; font-weight:700; background:linear-gradient(135deg,#ff6b35,#00e5ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .header .sub { font-size:12px; color:#5c6678; margin-top:4px; font-family:monospace; }
+  .back-link { color:#8b95a5; text-decoration:none; font-size:13px; }
+  .back-link:hover { color:#ff6b35; }
+  .card { background:#151b25; border:1px solid #1e2a3a; border-radius:8px; padding:20px; margin-bottom:16px; }
+  .card-title { font-size:16px; font-weight:700; margin-bottom:16px; color:#e6e8ec; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { background:#11161e; padding:10px 8px; text-align:left; font-size:11px; color:#5c6678; text-transform:uppercase; letter-spacing:0.5px; }
+  td { padding:10px 8px; }
+  tr:hover { background:#1a2230; }
+  .footer { margin-top:24px; padding:16px 0; border-top:1px solid #1e2a3a; display:flex; justify-content:space-between; font-size:11px; color:#5c6678; font-family:monospace; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div>
+      <h1>📌 重点基金监控</h1>
+      <div class="sub">Key Funds Monitor · 限额变动追踪</div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center;">
+      <a href="lof_reports_archive.html" class="back-link">📂 历史归档</a>
+      <a href="lof_full_report.html" class="back-link">← 返回总报告</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 重点基金列表（含历史限额记录）</div>
+    <table>
+      <thead>
+        <tr>
+          <th>代码</th><th>名称</th><th>当前状态</th><th>申购限额</th><th>分析报告</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #1e2a3a;">
+          <td style="padding:10px;color:#ff6b35;font-weight:600;">501312</td>
+          <td style="padding:10px;color:#e6e8ec;">华宝海外科技股票(QDII-LOF)A</td>
+          <td style="padding:10px;"><span style="background:#ff980022;color:#ff9800;padding:2px 8px;border-radius:3px;font-size:12px;">🟠 限大额 100.00元</span></td>
+          <td style="padding:10px;color:#8b95a5;font-size:13px;">100.00元</td>
+          <td style="padding:10px;text-align:center;"><a href="501312_report.html" target="_blank" style="color:#ff6b35;text-decoration:none;font-weight:700;">📊 查看分析</a></td>
+        </tr>
+        <tr style="border-bottom:1px solid #1e2a3a;">
+          <td style="padding:10px;color:#ff6b35;font-weight:600;">501225</td>
+          <td style="padding:10px;color:#e6e8ec;">景顺长城全球半导体芯片股票A(QDII-LOF)(人民币)</td>
+          <td style="padding:10px;"><span style="background:#ff3d4f22;color:#ff3d4f;padding:2px 8px;border-radius:3px;font-size:12px;">🔴 暂停</span></td>
+          <td style="padding:10px;color:#8b95a5;font-size:13px;">100.00元</td>
+          <td style="padding:10px;text-align:center;"><a href="501225_report.html" target="_blank" style="color:#ff6b35;text-decoration:none;font-weight:700;">📊 查看分析</a></td>
+        </tr>
+        <tr style="border-bottom:1px solid #1e2a3a;">
+          <td style="padding:10px;color:#ff6b35;font-weight:600;">160644</td>
+          <td style="padding:10px;color:#e6e8ec;">鹏华港美互联股票人民币</td>
+          <td style="padding:10px;"><span style="background:#ff3d4f22;color:#ff3d4f;padding:2px 8px;border-radius:3px;font-size:12px;">🔴 暂停</span></td>
+          <td style="padding:10px;color:#8b95a5;font-size:13px;">1.00万元</td>
+          <td style="padding:10px;text-align:center;"><a href="160644_report.html" target="_blank" style="color:#ff6b35;text-decoration:none;font-weight:700;">📊 查看分析</a></td>
+        </tr>
+        <tr style="border-bottom:1px solid #1e2a3a;">
+          <td style="padding:10px;color:#ff6b35;font-weight:600;">161128</td>
+          <td style="padding:10px;color:#e6e8ec;">易方达标普信息科技指数(QDII-LOF)A(人民币)</td>
+          <td style="padding:10px;"><span style="background:#ff3d4f22;color:#ff3d4f;padding:2px 8px;border-radius:3px;font-size:12px;">🔴 暂停</span></td>
+          <td style="padding:10px;color:#8b95a5;font-size:13px;">10.00元</td>
+          <td style="padding:10px;text-align:center;"><a href="161128_report.html" target="_blank" style="color:#ff6b35;text-decoration:none;font-weight:700;">📊 查看分析</a></td>
+        </tr>
+        <tr style="border-bottom:1px solid #1e2a3a;">
+          <td style="padding:10px;color:#ff6b35;font-weight:600;">161130</td>
+          <td style="padding:10px;color:#e6e8ec;">易方达纳斯达克100ETF联接(QDII-LOF)A(人民币)</td>
+          <td style="padding:10px;"><span style="background:#ff3d4f22;color:#ff3d4f;padding:2px 8px;border-radius:3px;font-size:12px;">🔴 暂停</span></td>
+          <td style="padding:10px;color:#8b95a5;font-size:13px;">10.00元</td>
+          <td style="padding:10px;text-align:center;"><a href="161130_report.html" target="_blank" style="color:#ff6b35;text-decoration:none;font-weight:700;">📊 查看分析</a></td>
+        </tr>
+        <tr style="border-bottom:1px solid #1e2a3a;">
+          <td style="padding:10px;color:#ff6b35;font-weight:600;">161125</td>
+          <td style="padding:10px;color:#e6e8ec;">易方达标普500指数人民币A</td>
+          <td style="padding:10px;"><span style="background:#ff3d4f22;color:#ff3d4f;padding:2px 8px;border-radius:3px;font-size:12px;">🔴 暂停</span></td>
+          <td style="padding:10px;color:#8b95a5;font-size:13px;">10.00元</td>
+          <td style="padding:10px;text-align:center;"><a href="161125_report.html" target="_blank" style="color:#ff6b35;text-decoration:none;font-weight:700;">📊 查看分析</a></td>
+        </tr>
+        <tr style="border-bottom:1px solid #1e2a3a;">
+          <td style="padding:10px;color:#ff6b35;font-weight:600;">164824</td>
+          <td style="padding:10px;color:#e6e8ec;">工银印度基金人民币</td>
+          <td style="padding:10px;"><span style="background:#ff980022;color:#ff9800;padding:2px 8px;border-radius:3px;font-size:12px;">🟠 限大额 50.00万元</span></td>
+          <td style="padding:10px;color:#8b95a5;font-size:13px;">50.00万元</td>
+          <td style="padding:10px;text-align:center;"><a href="164824_report.html" target="_blank" style="color:#ff6b35;text-decoration:none;font-weight:700;">📊 查看分析</a></td>
+        </tr>
+        <tr style="border-bottom:1px solid #1e2a3a;">
+          <td style="padding:10px;color:#ff6b35;font-weight:600;">164906</td>
+          <td style="padding:10px;color:#e6e8ec;">交银中证海外中国互联网指数(LOF)A</td>
+          <td style="padding:10px;"><span style="background:#00e67622;color:#00e676;padding:2px 8px;border-radius:3px;font-size:12px;">🟢 开放</span></td>
+          <td style="padding:10px;color:#8b95a5;font-size:13px;">无限制</td>
+          <td style="padding:10px;text-align:center;"><a href="164906_report.html" target="_blank" style="color:#ff6b35;text-decoration:none;font-weight:700;">📊 查看分析</a></td>
+        </tr>
+        <tr style="border-bottom:1px solid #1e2a3a;">
+          <td style="padding:10px;color:#ff6b35;font-weight:600;">162415</td>
+          <td style="padding:10px;color:#e6e8ec;">华宝标普美国消费人民币A</td>
+          <td style="padding:10px;"><span style="background:#ff980022;color:#ff9800;padding:2px 8px;border-radius:3px;font-size:12px;">🟠 限大额 1000.00元</span></td>
+          <td style="padding:10px;color:#8b95a5;font-size:13px;">1000.00元</td>
+          <td style="padding:10px;text-align:center;"><a href="162415_report.html" target="_blank" style="color:#ff6b35;text-decoration:none;font-weight:700;">📊 查看分析</a></td>
+        </tr>
+        <tr style="border-bottom:1px solid #1e2a3a;">
+          <td style="padding:10px;color:#ff6b35;font-weight:600;">501300</td>
+          <td style="padding:10px;color:#e6e8ec;">海富通全球收益债券人民币</td>
+          <td style="padding:10px;"><span style="background:#ff980022;color:#ff9800;padding:2px 8px;border-radius:3px;font-size:12px;">🟠 限大额 5000.00万元</span></td>
+          <td style="padding:10px;color:#8b95a5;font-size:13px;">5000.00万元</td>
+          <td style="padding:10px;text-align:center;"><a href="501300_report.html" target="_blank" style="color:#ff6b35;text-decoration:none;font-weight:700;">📊 查看分析</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    <span>数据源: fundf10.eastmoney.com · 已知限额基金: 10 只</span>
+    <span>更新时间: 2026-06-12 07:14:35</span>
+  </div>
+</div>
+</body>
+</html>

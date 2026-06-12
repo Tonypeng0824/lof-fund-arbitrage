@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI新闻每日简报 - 数智工具箱</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#f0f4f8;color:#1e293b;line-height:1.6}
+.nav{background:white;padding:14px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.04);border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:16px}
+.nav a{color:#2563eb;text-decoration:none;font-weight:500;font-size:0.9em}
+.nav a:hover{text-decoration:underline}
+.nav .sep{color:#cbd5e1}
+.container{max-width:900px;margin:0 auto;padding:40px 20px}
+.header{text-align:center;margin-bottom:40px}
+.header h1{font-size:2.2em;font-weight:800;color:#0f172a;margin-bottom:8px}
+.header p{color:#64748b;font-size:1.05em}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:32px}
+.card{background:white;border-radius:14px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,0.04);border:1px solid #f1f5f9;text-align:center}
+.card .num{font-size:2em;font-weight:800;color:#0891b2;margin:8px 0}
+.card .sub{font-size:0.85em;color:#64748b}
+.feature{background:white;border-radius:14px;padding:28px;box-shadow:0 1px 3px rgba(0,0,0,0.04);border:1px solid #f1f5f9;margin-bottom:20px}
+.feature h3{font-size:1.1em;margin-bottom:12px;color:#0f172a}
+.feature ul{list-style:none;padding:0}
+.feature li{padding:6px 0;font-size:0.9em;color:#475569;display:flex;align-items:flex-start;gap:8px}
+.feature li::before{content:'✅';flex-shrink:0}
+.badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:0.78em;font-weight:600;margin-right:6px}
+.badge-cyan{background:#ecfeff;color:#0891b2}
+.badge-blue{background:#eff6ff;color:#2563eb}
+.badge-green{background:#f0fdf4;color:#059669}
+.footer{text-align:center;padding:40px 20px;color:#94a3b8;font-size:0.85em;border-top:1px solid #e2e8f0;margin-top:40px}
+</style>
+</head>
+<body>
+<div class="nav">
+  <a href="index.html">← 返回首页</a>
+  <span class="sep">|</span>
+  <span style="color:#64748b;font-size:0.9em">AI新闻每日简报</span>
+</div>
+
+<div class="container">
+  <div class="header">
+    <h1>📰 AI 新闻每日简报</h1>
+    <p>聚合多平台重点AI资讯，每日8:00自动推送</p>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>📡 聚合平台</h3>
+      <div class="num">多平台</div>
+      <div class="sub">微信/知乎/36氪/机器之心等</div>
+    </div>
+    <div class="card">
+      <h3>📋 精选条数</h3>
+      <div class="num">TOP 20</div>
+      <div class="sub">高重复度重点新闻</div>
+    </div>
+    <div class="card">
+      <h3>⏰ 推送时间</h3>
+      <div class="num">8:00 AM</div>
+      <div class="sub">每日自动推送微信</div>
+    </div>
+    <div class="card">
+      <h3>🤖 处理方式</h3>
+      <div class="num">AI摘要</div>
+      <div class="sub">自动提取关键信息</div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <h3>📋 系统功能</h3>
+    <ul>
+      <li>聚合微信公众号、知乎、36氪、机器之心等多平台AI资讯</li>
+      <li>自动识别高重复度新闻（被多家媒体同时报道的重点事件）</li>
+      <li>AI提取新闻核心观点，生成简短摘要</li>
+      <li>每条新闻附带原文超链接和来源标注</li>
+      <li>每日8:00 AM通过微信助手自动推送图文消息</li>
+      <li>支持历史简报回顾查询</li>
+    </ul>
+  </div>
+
+  <div class="feature">
+    <h3>🏷 覆盖领域</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+      <span class="badge badge-cyan">大语言模型</span>
+      <span class="badge badge-blue">AI应用落地</span>
+      <span class="badge badge-green">开源项目</span>
+      <span class="badge badge-cyan">AI芯片</span>
+      <span class="badge badge-blue">政策监管</span>
+      <span class="badge badge-green">学术前沿</span>
+      <span class="badge badge-cyan">AI安全</span>
+      <span class="badge badge-blue">多模态AI</span>
+      <span class="badge badge-green">AI Agent</span>
+      <span class="badge badge-cyan">行业应用</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p><a href="index.html">← 返回数智工具箱首页</a></p>
+  <p style="margin-top:8px">简报每日自动生成，仅供参考</p>
+</div>
+</body>
+</html>

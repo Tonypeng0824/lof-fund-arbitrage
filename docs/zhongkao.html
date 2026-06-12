@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杭州中考志愿智能填报 - v3.1</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#f0fdf4 0%,#ecfeff 50%,#eff6ff 100%);color:#1e293b;line-height:1.6;min-height:100vh}
+.nav{background:white;padding:14px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.04);border-bottom:1px solid #e2e8f0}
+.container{max-width:960px;margin:0 auto;padding:30px 20px}
+.header{text-align:center;margin-bottom:30px}
+.header h1{font-size:2em;font-weight:800;color:#0f172a;margin-bottom:4px}
+.header .ver{font-size:0.85em;color:#059669;font-weight:600}
+.form-card{background:white;border-radius:16px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,0.06);border:1px solid #f1f5f9;margin-bottom:24px}
+.section-label{font-size:0.95em;font-weight:700;color:#059669;margin:20px 0 12px;padding-bottom:6px;border-bottom:2px solid #f0fdf4}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:8px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:0.84em;font-weight:600;color:#475569;margin-bottom:5px}
+.form-group label .opt{font-weight:400;color:#94a3b8}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:11px 14px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.93em;background:#f8fafc}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:#059669;outline:none;background:white}
+.form-group textarea{resize:vertical;min-height:60px}
+.form-group .hint{font-size:0.75em;color:#94a3b8;margin-top:3px}
+.optional-section{background:#fafbfc;border:1px dashed #e2e8f0;border-radius:12px;padding:20px;margin-top:16px}
+.optional-section summary{font-weight:600;color:#64748b;cursor:pointer;font-size:0.93em}
+.btn-submit{width:100%;padding:14px;background:linear-gradient(135deg,#059669,#0d9488);color:white;border:none;border-radius:12px;font-size:1.1em;font-weight:700;cursor:pointer;transition:all 0.3s}
+.btn-submit:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(5,150,105,0.3)}
+.btn-submit:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.loading{display:none;text-align:center;padding:40px}
+.loading .spinner{width:48px;height:48px;border:4px solid #e2e8f0;border-top-color:#059669;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error{background:#fef2f2;color:#dc2626;padding:16px;border-radius:10px;margin-bottom:16px;display:none}
+.model-row{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#f8fafc;border-radius:10px;margin-top:12px;font-size:0.85em;color:#64748b}
+.model-row select{padding:6px 12px;border:2px solid #e2e8f0;border-radius:8px;font-size:0.9em;background:white;min-width:180px}
+
+/* 报告 */
+.report{background:white;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.06);overflow:hidden;display:none}
+.report-header{background:linear-gradient(135deg,#0f172a,#1e3a5f);color:white;padding:32px;text-align:center}
+.report-header h2{font-size:1.6em;margin-bottom:4px}
+.report-header p{opacity:0.75;font-size:0.9em}
+.report-body{padding:32px}
+.report-body h3{font-size:1.15em;color:#0f172a;margin:28px 0 12px;padding-bottom:6px;border-bottom:2px solid #f0fdf4}
+.report-body h3:first-child{margin-top:0}
+.report-body h4{color:#475569;margin:16px 0 8px;font-size:1em}
+
+/* 信息表 */
+.info-table{width:100%;border-collapse:collapse;margin:12px 0}
+.info-table td{padding:8px 14px;border-bottom:1px solid #f1f5f9;font-size:0.9em}
+.info-table td:first-child{color:#64748b;font-weight:600;width:150px;white-space:nowrap;text-align:right;padding-right:16px}
+.info-table td:last-child{text-align:left}
+
+/* 分析框 */
+.analysis-box{background:#f8fafc;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:0.9em;color:#475569;line-height:1.8}
+
+/* 核心表格 */
+.school-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:0.875em}
+.school-table th{background:#f0fdf4;padding:12px 8px;text-align:center;font-weight:600;color:#334155;border:1px solid #d1fae5;font-size:0.8em;white-space:nowrap}
+.school-table td{padding:11px 8px;text-align:center;border:1px solid #e8edf2;vertical-align:middle}
+.school-table td.col-school{text-align:left;min-width:120px}
+.school-table td.col-reason{text-align:left;font-size:0.85em;color:#64748b;max-width:200px}
+.school-table td.col-rank{text-align:center}
+.school-table tr:hover td{background:#fafdfc}
+
+/* 标签 */
+.tag{display:inline-block;padding:2px 10px;border-radius:12px;font-size:0.8em;font-weight:700;min-width:48px;text-align:center}
+.tag-chong{background:#fef2f2;color:#dc2626}
+.tag-chong2{background:#fee2e2;color:#b91c1c}
+.tag-wen{background:#fefce8;color:#ca8a04}
+.tag-bao{background:#f0fdf4;color:#059669}
+.tag-high{background:#dcfce7;color:#15803d}
+.tag-mid{background:#fef9c3;color:#a16207}
+.tag-low{background:#fee2e2;color:#b91c1c}
+
+/* 风险框 */
+.risk-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:16px 20px;margin:12px 0;font-size:0.9em}
+.risk-box ul{margin:8px 0 0 16px}
+.risk-box li{margin-bottom:4px}
+
+.footer-note{text-align:center;padding:40px 20px;color:#94a3b8;font-size:0.85em}
+@media(max-width:640px){.form-row{grid-template-columns:1fr}.school-table{font-size:0.72em}.report-body{padding:16px}}
+</style>
+</head>
+<body>
+<div class="nav"><span style="color:#64748b;font-size:0.9em">🎓 杭州中考志愿智能填报</span></div>
+<div class="container">
+<div class="header"><h1>🎓 中考志愿智能填报</h1><span class="ver">v3.1 · 分差计算冲稳保 · 19校知识库 · 多模型</span></div>
+
+<div class="form-card">
+<div class="form-row">
+  <div class="form-group"><label>昵称</label><input type="text" id="nickname" placeholder="如：小明"></div>
+  <div class="form-group"><label>所在中学 <span style="color:#dc2626">*</span></label><input type="text" id="schoolName" placeholder="如：杭州市十三中教育集团" required></div>
+</div>
+<div class="section-label">📊 一模成绩</div>
+<div class="form-row">
+  <div class="form-group"><label>分数 <span style="color:#dc2626">*</span></label><input type="number" id="mock1Score" step="0.1" required></div>
+  <div class="form-group"><label>年排 <span class="opt">(选填)</span></label><input type="number" id="mock1Rank"><div class="hint">校内年级排名</div></div>
+</div>
+<div class="section-label">📊 二模成绩</div>
+<div class="form-row">
+  <div class="form-group"><label>分数 <span style="color:#dc2626">*</span></label><input type="number" id="mock2Score" step="0.1" required></div>
+  <div class="form-group"><label>年排 <span class="opt">(选填)</span></label><input type="number" id="mock2Rank"><div class="hint">校内年级排名</div></div>
+</div>
+<div class="section-label">🏠 志愿偏好</div>
+<div class="form-row">
+  <div class="form-group"><label>家庭地址 <span class="opt">(选填)</span></label><input type="text" id="homeAddress" placeholder="西湖区文三路XX小区"></div>
+  <div class="form-group"><label>目标/偏好</label><textarea id="targets" placeholder="如：想冲杭二中，理科强"></textarea></div>
+</div>
+<div class="form-row">
+  <div class="form-group"><label>住校偏好</label><select id="boarding"><option value="不限">不限</option><option value="希望住校">希望住校</option><option value="希望走读">希望走读</option></select></div>
+  <div class="form-group"><label>学籍人数</label><input type="number" id="studentCount" placeholder="如：460"><div class="hint">默认按20.5%估算分配生</div></div>
+</div>
+<details class="optional-section"><summary>📋 历史成绩（选填）</summary>
+  <div class="form-row">
+    <div class="form-group"><label>八下期末（分）</label><input type="number" id="grade8bScore" step="0.1"></div>
+    <div class="form-group"><label>八下年排</label><input type="number" id="grade8bRank"></div>
+  </div>
+  <div class="form-row">
+    <div class="form-group"><label>九上期末（分）</label><input type="number" id="grade9aScore" step="0.1"></div>
+    <div class="form-group"><label>九上年排</label><input type="number" id="grade9aRank"></div>
+  </div>
+</details>
+<div class="model-row">
+  <span>🤖 模型：</span>
+  <select id="modelSelect" onchange="onModelChange()">
+    <optgroup label="智谱AI（已配置·免费）">
+      <option value="zhipu|glm-4-flash">GLM-4-Flash（快速·默认）</option>
+    </optgroup>
+    <optgroup label="硅基流动 SiliconFlow（已配置·免费）">
+      <option value="siliconflow|deepseek-ai/DeepSeek-R1">DeepSeek-R1（推理强）</option>
+      <option value="siliconflow|Qwen/Qwen3-8B">Qwen3-8B（中文好）</option>
+    </optgroup>
+  </select>
+</div>
+<div class="model-row" id="apiKeyRow" style="display:none">
+  <span>🔑 硅基流动Key：</span>
+  <input type="password" id="apiKeyInput" placeholder="输入API Key" style="flex:1;padding:6px 12px;border:2px solid #e2e8f0;border-radius:8px;font-size:0.88em">
+  <button onclick="saveApiKey()" style="padding:6px 14px;background:#059669;color:white;border:none;border-radius:8px;cursor:pointer;font-size:0.85em">💾 保存</button>
+  <span id="keyStatus" style="font-size:0.78em;color:#94a3b8"></span>
+</div>
+<div class="model-row" style="gap:4px;font-size:0.78em;color:#94a3b8;padding-top:0">
+  <span>💡 先选模型，再点生成。Key存本地。</span>
+</div>
+<button class="btn-submit" id="submitBtn" onclick="generate()">🤖 生成志愿方案</button>
+</div>
+<div class="error" id="errorBox"></div>
+<div class="loading" id="loadingBox"><div class="spinner"></div><p>AI 正在撰写推荐理由...</p></div>
+
+<div class="report" id="reportBox">
+  <div class="report-header"><h2 id="reportTitle">中考志愿填报方案</h2><p>hangzhou-zhongkao-advisor v3.1 · 分差计算冲稳保 · 2026预测</p></div>
+  <div class="report-body" id="reportBody"></div>
+</div>
+</div>
+<div class="footer-note"><p>前端计算(19校+8预测+分配生公式) + AI推荐 · v3.1</p></div>
+
+<script>
+// ==================== 知识库 ====================
+var S = [
+  {n:"杭二滨江",t:1,tn:"T1前三",s:630,b:"是",d:"滨江区",g:"杭二中",a:"东信大道76号",m:"4号线联庄站",note:"清北/浙大录取数领跑"},
+  {n:"学军西溪",t:1,tn:"T1前三",s:629,b:"部分",d:"西湖区",g:"学军",a:"文三路188号",m:"2号线学院路站",note:"与杭二并列顶尖"},
+  {n:"杭高贡院",t:1,tn:"T1前三",s:627,b:"是",d:"拱墅区",g:"杭高",a:"凤起路238号",m:"1/2号线凤起路站",note:"传统名校,文科强"},
+  {n:"杭十四凤起",t:2,tn:"T2重高",s:624,b:"部分",d:"拱墅区",g:"杭十四",a:"凤起路580号",m:"1/2号线凤起路站"},
+  {n:"学军紫金港",t:2,tn:"T2重高",s:623,b:"是",d:"西湖区",g:"学军",a:"萍水西街100号",m:"2号线三坝站",note:"2025首进前八"},
+  {n:"杭四下沙",t:2,tn:"T2重高",s:622,b:"是",d:"钱塘区",g:"杭四中",a:"下沙6号大街436号",m:"1号线文海南路站",note:"理科强"},
+  {n:"浙大玉泉",t:2,tn:"T2重高",s:620,b:"否",d:"西湖区",g:"浙大附中",a:"曙光路89号",m:"1号线西湖文化广场站",note:"浙大资源"},
+  {n:"长河高中",t:2,tn:"T2重高",s:619,b:"是",d:"滨江区",g:"",a:"滨文路227号",m:"5号线聚才路站"},
+  {n:"杭师大附中",t:3,tn:"T3优高",s:617,b:"是",d:"西湖区",g:"",a:"振华路5号",m:"2号线墩祥街站"},
+  {n:"杭高钱江",t:3,tn:"T3优高",s:617,b:"是",d:"钱塘区",g:"杭高"},
+  {n:"杭十四康桥",t:3,tn:"T3优高",s:612,b:"是",d:"拱墅区",g:"杭十四",a:"龙腾街500号",m:"4号线储运路站"},
+  {n:"浙大丁兰",t:3,tn:"T3优高",s:610,b:"是",d:"上城区",g:"浙大附中",a:"丁兰街道丁兰路999号"},
+  {n:"源清中学",t:3,tn:"T3优高",s:607,b:"是",d:"拱墅区",g:"",a:"湖州街69号",m:"5号线善贤站"},
+  {n:"杭二东河",t:3,tn:"T3优高",s:602,b:"否",d:"上城区",g:"杭二中",a:"建国中路36号",m:"5号线万安桥站",note:"有首创班"},
+  {n:"杭四吴山",t:3,tn:"T3优高",s:595,b:"否",d:"上城区",g:"杭四中",a:"吴山路128号",m:"1号线定安路站"},
+  {n:"杭七中转塘",t:3,tn:"T3优高",s:590,b:"是",d:"西湖区"},
+  {n:"杭二高新(新)",t:3,tn:"2026新校",s:600,b:"是",d:"",g:"杭二中",note:"杭二中集团,招18班"},
+  {n:"浙大附实验(新)",t:3,tn:"2026新校",s:595,b:"是",d:"",g:"浙大附中",note:"招14班"},
+  {n:"淳安中学(新)",t:3,tn:"2026县中",s:570,b:"是",d:"淳安县",note:"首招主城区"},
+];
+
+// ==================== 2026年预测线 ====================
+var PRED = {yd:567, zg:622, q3:632, yg:610};
+
+// ==================== 冲稳保：基于2026预测线分档 ====================
+function classifySchool(sch, estScore) {
+  var diff = estScore - sch.s;
+  // 与2026预测线对比来确定分档
+  if (estScore >= PRED.q3) {  // 考生已超前三线
+    if(diff >= 5) return '保';        // 超录取分5+ → 保
+    if(diff >= -5) return '稳';       // ±5 → 稳
+    if(diff >= -15) return '冲';      // 低15内 → 冲
+    return '冲(难)';
+  }
+  if (estScore >= PRED.zg) {  // 考生已超重高线（620+）
+    if(diff >= 10) return '保';
+    if(diff >= -5) return '稳';
+    if(diff >= -20) return '冲';
+    return '冲(难)';
+  }
+  if (estScore >= PRED.yg) {  // 考生在优高~重高区间（610~622）
+    if(diff >= 15) return '保';
+    if(diff >= -5) return '稳';
+    if(diff >= -25) return '冲';
+    return '冲(难)';
+  }
+  if (estScore >= PRED.yd) {  // 考生在一段~优高区间（567~610）
+    if(diff >= 20) return '保(极稳)';
+    if(diff >= 8) return '保';
+    if(diff >= -10) return '稳';
+    if(diff >= -30) return '冲';
+    return '冲(难)';
+  }
+  // 考生低于一段线
+  if(diff >= 25) return '保(极稳)';
+  if(diff >= 10) return '保';
+  if(diff >= -10) return '稳';
+  return '冲';
+}
+
+// ==================== 分配生 & 裸考选校逻辑 ====================
+function pickAllocation(schools, bestRank, totalQ, top3Q, top8Q) {
+  // 分配生5校：按分档各取一些，形成阶梯
+  var all = schools.filter(function(s){return s.type!=='冲(难)';}); // 高难度冲的不适合分配生
+  var chong=[], wen=[], bao=[];
+  all.forEach(function(s){
+    if(s.type==='冲') chong.push(s);
+    else if(s.type==='稳') wen.push(s);
+    else bao.push(s);
+  });
+  chong.sort(function(a,b){return b.s-a.s;}); // 冲的从高到低
+  wen.sort(function(a,b){return b.s-a.s;});
+  bao.sort(function(a,b){return b.s-a.s;});
+
+  var plan=[];
+  // 1冲 + 2稳 + 1保 + 灵活填充
+  if(chong.length) plan.push({type:'冲',s:chong[0]});        // 1个最好的冲
+  plan=plan.concat(wen.slice(0,2).map(function(s){return {type:'稳',s:s};})); // 2个稳
+  if(bao.length) plan.push({type:'保',s:bao[0]});            // 1个保
+
+  // 补齐到5个：从剩余学校按分数从高到低补
+  var used={};
+  plan.forEach(function(e){used[e.s.n]=true;});
+  all.sort(function(a,b){return b.s-a.s;});
+  for(var i=0;i<all.length && plan.length<5;i++){
+    if(!used[all[i].n]){plan.push({type:all[i].type,s:all[i]});used[all[i].n]=true;}
+  }
+  plan.sort(function(a,b){return b.s.s-a.s.s;}); // 按分数从高到低排
+  return {slots:plan, totalQ:totalQ, top3Q:top3Q, top8Q:top8Q};
+}
+
+function pickNakedExam(schools) {
+  // 裸考10校：3冲+4稳+3保的混合
+  var chong=[], wen=[], bao=[];
+  schools.forEach(function(s){
+    var t=s.type;
+    if(t==='冲'||t==='冲(难)') chong.push(s);
+    else if(t==='稳') wen.push(s);
+    else bao.push(s);
+  });
+
+  var plan=[];
+  // 冲→取最低的3个（最容易够到的）
+  chong.sort(function(a,b){return a.s-b.s;}); // 分数低→高
+  plan=plan.concat(chong.slice(0,3));
+  // 稳→取所有
+  plan=plan.concat(wen);
+  // 保→取最高的3个
+  bao.sort(function(a,b){return b.s-a.s;});
+  plan=plan.concat(bao.slice(0,3));
+
+  // 全按分数降序
+  plan.sort(function(a,b){return b.s-a.s;});
+  // 限10个
+  return plan.slice(0,10).map(function(s,i){return {i:i+1,type:s.type,s:s};});
+}
+
+// ==================== 核心计算 ====================
+function compute(data) {
+  var sc = data.studentCount || 400;
+  var totalQ = Math.round(sc * 0.205);
+  var top3Q = Math.round(sc * 0.034);
+  var top8Q = Math.round(sc * 0.09);
+  var bestScore = data.mock2Score || data.mock1Score;
+  var bestRank = data.mock2Rank || data.mock1Rank;
+  var estScore = bestScore + 28;
+  var trend = data.mock1Score && data.mock2Score ? (data.mock2Score-data.mock1Score) : null;
+
+  // 对所有学校分档
+  var all = [];
+  S.forEach(function(sch){
+    if(!sch.s) return;
+    var type = classifySchool(sch, estScore);
+    if(data.boarding==='希望住校' && sch.b==='否') return;
+    all.push({
+      n:sch.n, t:sch.t, tn:sch.tn, s:sch.s, b:sch.b, d:sch.d,
+      a:sch.a||'', m:sch.m||'', note:sch.note||'',
+      diff:(estScore-sch.s).toFixed(0), type:type
+    });
+  });
+  all.sort(function(a,b){return b.s - a.s;});
+
+  // 分配生
+  var allocPlan = pickAllocation(all, bestRank, totalQ, top3Q, top8Q);
+  // 裸考
+  var nkPlan = pickNakedExam(all);
+
+  // 概率
+  var allocProb='?', top3Prob='?';
+  if(bestRank && sc){
+    allocProb = bestRank<=totalQ?'高':(bestRank<=totalQ*1.3?'中':'低');
+    top3Prob = bestRank<=top3Q?'高':(bestRank<=top3Q*2?'中':'低');
+  }
+
+  return {
+    totalQ:totalQ, top3Q:top3Q, top8Q:top8Q,
+    bestScore:bestScore, bestRank:bestRank, estScore:estScore, trend:trend,
+    allocProb:allocProb, top3Prob:top3Prob,
+    allocPlan:allocPlan, nkPlan:nkPlan, all:all
+  };
+}
+
+// ==================== 渲染报告 ====================
+function renderReport(data, calc, aiText) {
+  var sn = data.schoolName, nick = data.nickname||'考生';
+  var h = '';
+  document.getElementById('reportTitle').textContent = nick+' — '+sn+' 中考志愿方案';
+
+  // 一、基本信息
+  h+='<h3>一、考生基本信息</h3><table class="info-table">';
+  h+='<tr><td>初中学校</td><td><strong>'+sn+'</strong></td></tr>';
+  if(data.studentCount) h+='<tr><td>学籍人数</td><td>'+data.studentCount+'人</td></tr>';
+  h+='<tr><td>分配生资格</td><td>待评估（应届+综合素质3A）</td></tr>';
+  if(data.mock1Score) h+='<tr><td>一模</td><td>'+data.mock1Score+'分'+(data.mock1Rank?' (年排'+data.mock1Rank+')':'')+'</td></tr>';
+  if(data.mock2Score) h+='<tr><td>二模</td><td>'+data.mock2Score+'分'+(data.mock2Rank?' (年排'+data.mock2Rank+')':'')+'</td></tr>';
+  if(calc.trend!=null) h+='<tr><td>模考趋势</td><td>'+(calc.trend>0?'📈 上涨'+calc.trend+'分':calc.trend<0?'📉 下降'+Math.abs(calc.trend)+'分':'➡ 持平')+'</td></tr>';
+  h+='<tr><td>预估中考</td><td><strong>'+(calc.estScore-5)+'~'+(calc.estScore+5)+'分</strong>（模考+25~30修正）</td></tr>';
+  h+='<tr><td>住校</td><td>'+data.boarding+'</td></tr>';
+  if(data.homeAddress) h+='<tr><td>地址</td><td>'+data.homeAddress+'</td></tr>';
+  if(data.targets) h+='<tr><td>目标</td><td>'+data.targets+'</td></tr>';
+  h+='</table>';
+
+  // 二、定位
+  h+='<h3>二、成绩定位与趋势</h3><div class="analysis-box">';
+  h+='<p>📊 二模<strong>'+calc.bestScore+'分</strong>，预估中考约<strong>'+(calc.estScore-5)+'~'+(calc.estScore+5)+'分</strong></p>';
+  var es=calc.estScore;
+  h+='<p>📏 vs预测线：一段线<strong>'+PRED.yd+'</strong>('+(es>PRED.yd?'✅超'+(es-PRED.yd)+'分':'❌低'+(PRED.yd-es)+'分')+') · 重高线<strong>'+PRED.zg+'</strong>('+(es>PRED.zg?'✅超'+(es-PRED.zg)+'分':'⚠低'+(PRED.zg-es)+'分')+') · 前三线<strong>'+PRED.q3+'</strong>('+(es>PRED.q3?'✅':'❌低'+(PRED.q3-es)+'分')+')</p>';
+  if(calc.trend!=null) h+='<p>'+(calc.trend>0?'📈 模考趋势向好':'')+'</p>';
+  h+='</div>';
+
+  // 三、分配生
+  h+='<h3>三、分配生资格评估</h3><div class="analysis-box">';
+  h+='<p>🎯 学籍<strong>'+(data.studentCount||'未填')+'人</strong> ×20.5%：总分配生约<strong>'+calc.totalQ+'名</strong></p>';
+  h+='<p>📌 前三所约<strong>'+calc.top3Q+'名</strong>(×3.4%) · 前八所约<strong>'+calc.top8Q+'名</strong>(×9%)</p>';
+  if(calc.bestRank){
+    h+='<p>👤 年排<strong>'+calc.bestRank+'名</strong> → 分配生概率：<span class="tag tag-'+(calc.allocProb==='高'?'high':calc.allocProb==='中'?'mid':'low')+'">'+calc.allocProb+'</span> · 前三：<span class="tag tag-'+(calc.top3Prob==='高'?'high':calc.top3Prob==='中'?'mid':'low')+'">'+calc.top3Prob+'</span></p>';
+  }
+  h+='</div>';
+
+  // 分配生志愿表
+  h+='<h4>📋 分配生志愿（5个平行志愿 · 校内竞争 · 按录取分排序）</h4>';
+  h+='<table class="school-table"><thead><tr><th>序号</th><th>类型</th><th>学校</th><th>2025分</th><th>分差</th><th>梯队</th><th>住校</th><th>地址/地铁</th></tr></thead><tbody>';
+  for(var i=0;i<calc.allocPlan.length;i++){
+    var e=calc.allocPlan[i], s=e.s;
+    var tc=e.type==='冲'?'tag-chong':e.type==='稳'?'tag-wen':'tag-bao';
+    h+='<tr><td>'+(i+1)+'</td><td><span class="tag '+tc+'">'+e.type+'</span></td>';
+    h+='<td class="col-school"><strong>'+s.n+'</strong>'+(s.note?'<br><small style="color:#94a3b8">'+s.note+'</small>':'')+'</td>';
+    h+='<td>'+s.s+'</td><td>'+(s.diff>0?'+':'')+s.diff+'</td><td>'+s.tn+'</td><td>'+s.b+'</td>';
+    h+='<td class="col-reason">'+(s.a?'📍'+s.a:'')+(s.m?' 🚇'+s.m:'')+'</td></tr>';
+  }
+  h+='</tbody></table>';
+
+  // 四、裸考
+  h+='<h3>四、裸考志愿方案（第一批10个 · 全市竞争 · 按录取分从高到低）</h3>';
+  h+='<table class="school-table"><thead><tr><th>序号</th><th>类型</th><th>学校</th><th>2025分</th><th>分差</th><th>梯队</th><th>住校</th><th>地址/地铁</th></tr></thead><tbody>';
+  for(var i=0;i<calc.nkPlan.length;i++){
+    var e=calc.nkPlan[i];
+    var tc='';
+    if(e.type==='冲') tc='tag-chong';
+    else if(e.type==='冲(难)') tc='tag-chong2';
+    else if(e.type==='稳') tc='tag-wen';
+    else tc='tag-bao';
+    h+='<tr><td>'+(i+1)+'</td><td><span class="tag '+tc+'">'+e.type+'</span></td>';
+    h+='<td class="col-school"><strong>'+e.n+'</strong></td>';
+    h+='<td>'+e.s+'</td><td>'+(e.diff>0?'+':'')+e.diff+'</td><td>'+e.tn+'</td><td>'+e.b+'</td>';
+    h+='<td class="col-reason">'+(e.a?'📍'+e.a:'')+(e.m?' 🚇'+e.m:'')+'</td></tr>';
+  }
+  h+='</tbody></table>';
+
+  // 五、AI分析
+  h+='<h3>五、AI 综合分析与风险提示</h3><div class="analysis-box">'+aiText+'</div>';
+
+  // 六、提醒
+  h+='<h3>六、重要提醒</h3><div class="risk-box"><ul>';
+  h+='<li>📅 志愿填报：<strong>5月29日-30日</strong>（www.hzjyks.net）</li>';
+  h+='<li>📝 中考：<strong>6月20日-21日</strong></li>';
+  h+='<li>⚠ 分配生未录取不影响裸考批次</li>';
+  h+='<li>⚠ 新增：杭二高新(18班)+浙大附实验(14班)+4所县中首招</li>';
+  h+='<li>⚠ 分配生比例20.5%，裸考重高名额减少</li>';
+  h+='<li>📊 本方案基于分差计算冲稳保（不按位置硬编码）</li>';
+  h+='</ul></div>';
+
+  return h;
+}
+
+// ==================== 多平台API配置 ====================
+var MODEL_CONFIGS = {
+  'zhipu': {
+    name:'智谱AI', endpoint:'https://open.bigmodel.cn/api/paas/v4/chat/completions',
+    defaultKey:'d66eba51f54e4211aed6f9af217ca122.pKK63AJ6GVVRN4xk',
+    headers:function(k){return {'Content-Type':'application/json','Authorization':'Bearer '+k};},
+    body:function(m,k){return JSON.stringify({model:m,messages:[{role:'system',content:'杭州中考志愿专家，专业务实简洁。纯文本，不用Markdown。'},{role:'user',content:k}],temperature:0.5,max_tokens:400});}
+  },
+  'siliconflow': {
+    name:'硅基流动', endpoint:'https://api.siliconflow.cn/v1/chat/completions',
+    defaultKey:'',
+    headers:function(k){return {'Content-Type':'application/json','Authorization':'Bearer '+k};},
+    body:function(m,k){return JSON.stringify({model:m,messages:[{role:'system',content:'杭州中考志愿专家，专业务实简洁。纯文本。'},{role:'user',content:k}],temperature:0.5,max_tokens:400});}
+  }
+};
+
+// localStorage管理
+function getKey(platform){return localStorage.getItem('zk_key_'+platform)||MODEL_CONFIGS[platform].defaultKey||'';}
+function saveKey(platform,key){localStorage.setItem('zk_key_'+platform,key);}
+function onModelChange(){
+  var sel=document.getElementById('modelSelect').value.split('|');
+  var platform=sel[0];
+  var row=document.getElementById('apiKeyRow');
+  var input=document.getElementById('apiKeyInput');
+  var status=document.getElementById('keyStatus');
+  if(platform==='zhipu'){row.style.display='none';return;}
+  row.style.display='flex';
+  input.value=getKey(platform);
+  status.textContent=getKey(platform)?'✅ 已保存':'⚠ 需要Key';
+}
+function saveApiKey(){
+  var sel=document.getElementById('modelSelect').value.split('|');
+  var platform=sel[0], key=document.getElementById('apiKeyInput').value.trim();
+  if(!key){document.getElementById('keyStatus').textContent='❌ Key不能为空';return;}
+  saveKey(platform,key);
+  document.getElementById('keyStatus').textContent='✅ 已保存';
+}
+// 页面加载时恢复
+(function(){
+  var sel=document.getElementById('modelSelect');
+  var saved=localStorage.getItem('zk_last_model');
+  if(saved) sel.value=saved;
+  onModelChange();
+})();
+
+async function getAI(data, calc, modelKey) {
+  var parts=modelKey.split('|'), platform=parts[0], model=parts[1];
+  var cfg=MODEL_CONFIGS[platform];
+  var key=getKey(platform);
+  if(!key && platform!=='zhipu') return '(请先配置'+cfg.name+'的API Key)';
+
+  var es=calc.estScore;
+  var p='你是杭州中考志愿资深顾问。为以下学生写100-150字分析：\n\n';
+  p+='学生：'+(data.nickname||'考生')+'，'+data.schoolName+'\n';
+  p+='二模'+calc.bestScore+'分(年排'+(calc.bestRank||'?')+')，预估中考'+(es-5)+'~'+(es+5)+'分\n';
+  p+='分配生：总'+calc.totalQ+'名，前三'+calc.top3Q+'名，概率'+calc.allocProb+'/前三'+calc.top3Prob+'\n';
+  p+='住校：'+data.boarding+(data.homeAddress?'，地址：'+data.homeAddress:'');
+  p+='\n\n要求：3段分析。1)成绩定位(1句) 2)策略建议(2句) 3)风险提示(1句)。纯文本，专业务实。';
+
+  try{
+    var resp=await fetch(cfg.endpoint,{
+      method:'POST',
+      headers:cfg.headers(key),
+      body:cfg.body(model, p)
+    });
+    if(resp.ok){var r=await resp.json();return r.choices[0].message.content;}
+
+    // 失败时fallback到智谱
+    if(platform!=='zhipu'){
+      var zcfg=MODEL_CONFIGS['zhipu'];
+      resp=await fetch(zcfg.endpoint,{
+        method:'POST',headers:zcfg.headers(zcfg.defaultKey),
+        body:zcfg.body('glm-4-flash', p)
+      });
+      if(resp.ok){var r2=await resp.json();return '(降级为智谱GLM-4-Flash)\n'+r2.choices[0].message.content;}
+    }
+  }catch(e){console.log(platform+' error:',e.message);}
+
+  // 最终fallback
+  if(platform!=='zhipu'){
+    try{
+      var zcfg=MODEL_CONFIGS['zhipu'];
+      var resp=await fetch(zcfg.endpoint,{method:'POST',headers:zcfg.headers(zcfg.defaultKey),body:zcfg.body('glm-4-flash',p)});
+      if(resp.ok){var r3=await resp.json();return '(降级为智谱GLM-4-Flash)\n'+r3.choices[0].message.content;}
+    }catch(e){}
+  }
+  return '（AI服务暂不可用。以下志愿表格为前端精确计算，请参考表格和风险提示自行判断。）';
+}
+
+// ==================== 主流程 ====================
+async function generate(){
+  var s1=document.getElementById('mock1Score').value, s2=document.getElementById('mock2Score').value;
+  var sn=document.getElementById('schoolName').value;
+  if((!s1&&!s2)||!sn){showError('请填写中学名称和至少一模或二模成绩');return;}
+
+  var data={
+    nickname:document.getElementById('nickname').value||'',
+    schoolName:sn,
+    mock1Score:parseFloat(s1)||null,mock1Rank:document.getElementById('mock1Rank').value?parseInt(document.getElementById('mock1Rank').value):null,
+    mock2Score:parseFloat(s2)||null,mock2Rank:document.getElementById('mock2Rank').value?parseInt(document.getElementById('mock2Rank').value):null,
+    targets:document.getElementById('targets').value||'',
+    homeAddress:document.getElementById('homeAddress').value||'',
+    boarding:document.getElementById('boarding').value||'不限',
+    studentCount:document.getElementById('studentCount').value?parseInt(document.getElementById('studentCount').value):null,
+  };
+
+  var btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='⏳ 计算中...';
+  document.getElementById('errorBox').style.display='none';
+  document.getElementById('reportBox').style.display='none';
+  document.getElementById('loadingBox').style.display='block';
+
+  var model=document.getElementById('modelSelect').value;
+  localStorage.setItem('zk_last_model', model);
+  var calc=compute(data);
+  var aiText=await getAI(data,calc,model);
+
+  document.getElementById('loadingBox').style.display='none';
+  document.getElementById('reportBody').innerHTML=renderReport(data,calc,aiText);
+  document.getElementById('reportBox').style.display='block';
+  window.scrollTo({top:document.getElementById('reportBox').offsetTop-20,behavior:'smooth'});
+
+  btn.disabled=false;btn.textContent='🤖 重新生成方案';
+}
+
+function showError(msg){var b=document.getElementById('errorBox');b.textContent='❌ '+msg;b.style.display='block';}
+</script>
+</body>
+</html>

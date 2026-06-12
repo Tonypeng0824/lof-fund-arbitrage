@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>专家库征集监控 - 数智工具箱</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#f0f4f8;color:#1e293b;line-height:1.6}
+.nav{background:white;padding:14px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.04);border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:16px}
+.nav a{color:#2563eb;text-decoration:none;font-weight:500;font-size:0.9em}
+.nav a:hover{text-decoration:underline}
+.nav .sep{color:#cbd5e1}
+.container{max-width:900px;margin:0 auto;padding:40px 20px}
+.header{text-align:center;margin-bottom:40px}
+.header h1{font-size:2.2em;font-weight:800;color:#0f172a;margin-bottom:8px}
+.header p{color:#64748b;font-size:1.05em}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:32px}
+.card{background:white;border-radius:14px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,0.04);border:1px solid #f1f5f9;text-align:center}
+.card .num{font-size:2em;font-weight:800;color:#7c3aed;margin:8px 0}
+.card .sub{font-size:0.85em;color:#64748b}
+.feature{background:white;border-radius:14px;padding:28px;box-shadow:0 1px 3px rgba(0,0,0,0.04);border:1px solid #f1f5f9;margin-bottom:20px}
+.feature h3{font-size:1.1em;margin-bottom:12px;color:#0f172a}
+.feature ul{list-style:none;padding:0}
+.feature li{padding:6px 0;font-size:0.9em;color:#475569;display:flex;align-items:flex-start;gap:8px}
+.feature li::before{content:'✅'}
+.data-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:0.9em}
+.data-table th{background:#f8fafc;padding:10px 12px;text-align:left;font-weight:600;color:#475569;border-bottom:2px solid #e2e8f0}
+.data-table td{padding:10px 12px;border-bottom:1px solid #f1f5f9}
+.badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:0.78em;font-weight:600}
+.badge-purple{background:#faf5ff;color:#7c3aed}
+.badge-blue{background:#eff6ff;color:#2563eb}
+.footer{text-align:center;padding:40px 20px;color:#94a3b8;font-size:0.85em;border-top:1px solid #e2e8f0;margin-top:40px}
+</style>
+</head>
+<body>
+<div class="nav">
+  <a href="index.html">← 返回首页</a>
+  <span class="sep">|</span>
+  <span style="color:#64748b;font-size:0.9em">专家库征集监控</span>
+</div>
+
+<div class="container">
+  <div class="header">
+    <h1>🔍 专家库征集监控</h1>
+    <p>自动追踪各省市专家库/人才库征集通知，不错过入库机会</p>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>📡 监控公众号</h3>
+      <div class="num">20个</div>
+      <div class="sub">实时扫描征集通知</div>
+    </div>
+    <div class="card">
+      <h3>📂 分类维度</h3>
+      <div class="num">4类</div>
+      <div class="sub">政府/国企/私企/协会</div>
+    </div>
+    <div class="card">
+      <h3>🗺 覆盖省份</h3>
+      <div class="num">全国</div>
+      <div class="sub">重点关注浙江省</div>
+    </div>
+    <div class="card">
+      <h3>⏰ 更新频率</h3>
+      <div class="num">每日</div>
+      <div class="sub">自动采集+分类入库</div>
+    </div>
+  </div>
+
+  <div class="feature">
+    <h3>📋 系统功能</h3>
+    <ul>
+      <li>自动扫描20个微信公众号中的专家库/人才库征集通知</li>
+      <li>AI理解文章内容，自动归类（政府类/国企类/私企类/协会类）</li>
+      <li>按省份和类型分类存储到 SQLite 数据库</li>
+      <li>每日自动更新，新通知即时推送</li>
+      <li>重点关注浙江省专家库数据</li>
+      <li>支持关键词搜索和历史记录查询</li>
+    </ul>
+  </div>
+
+  <div class="feature">
+    <h3>📊 监控分类</h3>
+    <table class="data-table">
+      <tr><th>类型</th><th>标签</th><th>说明</th></tr>
+      <tr><td>政府类</td><td><span class="badge badge-purple">政府采购评审</span></td><td>省市政府采购评审专家征集</td></tr>
+      <tr><td>国企类</td><td><span class="badge badge-blue">央企/国企招标</span></td><td>航空工业、中煤等央企专家库</td></tr>
+      <tr><td>私企类</td><td><span class="badge" style="background:#fef3c7;color:#92400e">企业专家库</span></td><td>大型企业技术专家征集</td></tr>
+      <tr><td>协会类</td><td><span class="badge" style="background:#f0fdf4;color:#059669">行业协会</span></td><td>各行业协会专家库征集</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p><a href="index.html">← 返回数智工具箱首页</a></p>
+  <p style="margin-top:8px">数据每日自动更新，仅供参考</p>
+</div>
+</body>
+</html>

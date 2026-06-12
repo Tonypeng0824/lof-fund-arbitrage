@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数智工具箱 - 套利 · 志愿 · 数据</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f4f8; color: #1e293b; line-height: 1.6; min-height: 100vh; }
+.hero { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #2563eb 100%); color: white; text-align: center; padding: 80px 20px 60px; position: relative; overflow: hidden; }
+.hero::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 50%, rgba(37,99,235,0.15) 0%, transparent 50%); animation: pulse 8s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+.hero h1 { font-size: 2.8em; font-weight: 800; margin-bottom: 12px; position: relative; z-index: 1; letter-spacing: -0.02em; }
+.hero p { font-size: 1.15em; opacity: 0.85; position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+.hero .badge-row { margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+.hero .badge-row span { background: rgba(255,255,255,0.12); padding: 6px 16px; border-radius: 20px; font-size: 0.85em; border: 1px solid rgba(255,255,255,0.15); }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+.section-title { text-align: center; margin: 60px 0 32px; }
+.section-title h2 { font-size: 1.8em; font-weight: 700; color: #0f172a; }
+.section-title p { color: #64748b; margin-top: 8px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-bottom: 60px; }
+.card { background: white; border-radius: 16px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03); transition: all 0.3s ease; cursor: pointer; text-decoration: none; color: inherit; display: block; border: 1px solid #f1f5f9; position: relative; overflow: hidden; }
+.card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: #e2e8f0; }
+.card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+.card:nth-child(1)::before { background: linear-gradient(90deg, #2563eb, #7c3aed); }
+.card:nth-child(2)::before { background: linear-gradient(90deg, #059669, #0d9488); }
+.card:nth-child(3)::before { background: linear-gradient(90deg, #ea580c, #f59e0b); }
+.card:nth-child(4)::before { background: linear-gradient(90deg, #dc2626, #db2777); }
+.card:nth-child(5)::before { background: linear-gradient(90deg, #0891b2, #06b6d4); }
+.card-icon { font-size: 2.2em; margin-bottom: 16px; }
+.card h3 { font-size: 1.2em; font-weight: 700; margin-bottom: 8px; color: #0f172a; }
+.card .desc { font-size: 0.9em; color: #64748b; line-height: 1.6; margin-bottom: 16px; }
+.card .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.card .tag { padding: 4px 12px; border-radius: 6px; font-size: 0.78em; font-weight: 500; }
+.tag-blue { background: #eff6ff; color: #2563eb; }
+.tag-green { background: #f0fdf4; color: #059669; }
+.tag-orange { background: #fff7ed; color: #ea580c; }
+.tag-purple { background: #faf5ff; color: #7c3aed; }
+.tag-cyan { background: #ecfeff; color: #0891b2; }
+.card .arrow { display: inline-flex; align-items: center; gap: 6px; color: #2563eb; font-weight: 600; font-size: 0.9em; margin-top: 8px; transition: gap 0.2s; }
+.card:hover .arrow { gap: 10px; }
+.update-bar { background: white; border-radius: 12px; padding: 16px 20px; margin-bottom: 40px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; }
+.update-dot { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; animation: blink 2s infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.update-bar .text { flex: 1; font-size: 0.9em; color: #475569; }
+.update-bar .text strong { color: #0f172a; }
+.footer { text-align: center; padding: 40px 20px; color: #94a3b8; font-size: 0.85em; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+.footer a { color: #64748b; text-decoration: none; }
+.footer a:hover { color: #2563eb; }
+.soon-badge { position: absolute; top: 16px; right: 16px; background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 12px; font-size: 0.72em; font-weight: 600; }
+
+@media (max-width: 768px) {
+  .hero h1 { font-size: 1.8em; }
+  .cards { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>📊 数智工具箱</h1>
+  <p>套利追踪 · 中考志愿 · 基金数据 — 自动化数据工具集</p>
+  <div class="badge-row">
+    <span>🔄 每日自动更新</span>
+    <span>📡 多平台数据聚合</span>
+    <span>🤖 AI 驱动分析</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="update-bar">
+    <div class="update-dot"></div>
+    <div class="text">
+      <strong>系统运行中</strong> — 每日 8:30 AM 自动采集最新数据，多平台交叉验证
+    </div>
+    <span style="color:#64748b;font-size:0.82em;">更新于 2026-06-01</span>
+  </div>
+
+  <div class="section-title">
+    <h2>🛠 功能模块</h2>
+    <p>点击卡片进入对应工具页面</p>
+  </div>
+
+  <div class="cards">
+
+    <!-- 套利渠道追踪 -->
+    <a href="arbitrage.html" class="card">
+      <div class="card-icon">📈</div>
+      <h3>套利渠道追踪</h3>
+      <div class="desc">覆盖20个国内外低风险套利渠道，按难易度/额度/知名度排名。涵盖LOF套利、可转债、打新、并购套利、跨境套利等8大分类。</div>
+      <div class="tags">
+        <span class="tag tag-blue">20个渠道</span>
+        <span class="tag tag-green">每日更新</span>
+        <span class="tag tag-purple">交互排序</span>
+      </div>
+      <div class="arrow">进入工具 →</div>
+    </a>
+
+    <!-- 中考志愿填报 -->
+    <a href="zhongkao.html" class="card">
+      <div class="card-icon">🎓</div>
+      <h3>杭州中考志愿填报顾问</h3>
+      <div class="desc">基于校内排名、一模二模成绩、分配生配额，智能生成冲/稳/保志愿方案。覆盖20+公众号数据源和B站视频分析。</div>
+      <div class="tags">
+        <span class="tag tag-green">分配生评估</span>
+        <span class="tag tag-blue">志愿方案生成</span>
+        <span class="tag tag-orange">本地数据库</span>
+      </div>
+      <div class="arrow">进入工具 →</div>
+    </a>
+
+    <!-- LOF溢价追踪 -->
+    <a href="lof-premium.html" class="card">
+      <div class="card-icon">💹</div>
+      <h3>LOF & QDII 溢价追踪</h3>
+      <div class="desc">每日自动获取390+只LOF基金、40只QDII ETF、7只纳指标普ETF的实时溢价/折价数据。支持19字段完整报告和交互排序。</div>
+      <div class="tags">
+        <span class="tag tag-orange">390+ LOF</span>
+        <span class="tag tag-blue">QDII ETF</span>
+        <span class="tag tag-green">每日更新</span>
+      </div>
+      <div class="arrow">进入工具 →</div>
+    </a>
+
+    <!-- 专家库监控 -->
+    <a href="expert-db.html" class="card">
+      <div class="card-icon">🔍</div>
+      <h3>专家库征集监控</h3>
+      <div class="desc">自动监控20个微信公众号中的专家库/人才库征集通知，按省份和类型分类存入数据库，支持每日自动推送。</div>
+      <div class="tags">
+        <span class="tag tag-purple">20个公众号</span>
+        <span class="tag tag-cyan">自动分类</span>
+        <span class="tag tag-green">每日推送</span>
+      </div>
+      <div class="arrow">进入工具 →</div>
+    </a>
+
+    <!-- AI新闻简报 -->
+    <a href="ai-news.html" class="card">
+      <div class="card-icon">📰</div>
+      <h3>AI 新闻每日简报</h3>
+      <div class="desc">聚合多平台前20条高重复度AI新闻，带超链接和来源标注。每日8:00自动推送微信，AI关键信息提取。</div>
+      <div class="tags">
+        <span class="tag tag-cyan">多平台聚合</span>
+        <span class="tag tag-blue">AI摘要</span>
+        <span class="tag tag-green">微信推送</span>
+      </div>
+      <div class="arrow">进入工具 →</div>
+    </a>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>数智工具箱 &copy; 2026 &nbsp;|&nbsp; 数据每日自动更新 &nbsp;|&nbsp; 仅供参考，不构成投资建议</p>
+  <p style="margin-top:8px;">
+    <a href="arbitrage.html">套利追踪</a> ·
+    <a href="zhongkao.html">中考志愿</a> ·
+    <a href="lof-premium.html">LOF溢价</a> ·
+    <a href="expert-db.html">专家库</a> ·
+    <a href="ai-news.html">AI新闻</a>
+  </p>
+</div>
+
+</body>
+</html>

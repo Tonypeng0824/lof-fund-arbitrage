@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>套利渠道全景报告 - 2026-06-04 08:25</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+.header { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; padding: 40px 20px; text-align: center; border-radius: 16px; margin-bottom: 24px; }
+.header h1 { font-size: 2em; margin-bottom: 8px; }
+.header p { opacity: 0.8; font-size: 0.95em; }
+.stats-row { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.stat-card { flex: 1; min-width: 160px; background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); text-align: center; }
+.stat-card .num { font-size: 2em; font-weight: 700; color: #1e293b; }
+.stat-card .label { font-size: 0.85em; color: #64748b; margin-top: 4px; }
+.controls { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; align-items: center; }
+.controls select, .controls input { padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 0.9em; background: white; }
+.controls select { min-width: 160px; }
+.controls input { flex: 1; min-width: 200px; }
+.sort-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.sort-btns button { padding: 8px 16px; border: 1px solid #e2e8f0; border-radius: 8px; background: white; cursor: pointer; font-size: 0.85em; transition: all 0.2s; }
+.sort-btns button:hover { background: #f1f5f9; }
+.sort-btns button.active { background: #1e293b; color: white; border-color: #1e293b; }
+.table-wrapper { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 1200px; }
+th { background: #f8fafc; padding: 14px 12px; text-align: left; font-size: 0.8em; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid #e2e8f0; white-space: nowrap; cursor: pointer; }
+th:hover { color: #1e293b; }
+td { padding: 14px 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.88em; vertical-align: top; }
+tr:hover { background: #f8fafc; }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.78em; font-weight: 600; }
+.badge-diff { background: #fef3c7; color: #92400e; }
+.badge-risk { background: #fce7f3; color: #9d174d; }
+.badge-pop { background: #dbeafe; color: #1e40af; }
+.pop-stars { color: #f59e0b; font-size: 0.9em; letter-spacing: 1px; }
+.ch-name { font-weight: 600; color: #1e293b; white-space: nowrap; }
+.ch-cat { font-size: 0.8em; color: #64748b; }
+.quota-info { font-size: 0.8em; color: #64748b; }
+.desc-preview { max-width: 280px; font-size: 0.85em; color: #475569; }
+.howto-preview { max-width: 280px; font-size: 0.82em; color: #64748b; }
+.ret-info { font-weight: 600; color: #059669; font-size: 0.9em; white-space: nowrap; }
+.risk-badge { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; }
+.sources-section { margin-top: 40px; }
+.sources-section h2 { font-size: 1.5em; margin-bottom: 16px; color: #1e293b; }
+.source-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.source-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.source-card h3 { font-size: 1.05em; margin-bottom: 6px; }
+.source-card .platform-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #f1f5f9; color: #475569; margin-bottom: 8px; }
+.source-card .desc { font-size: 0.85em; color: #64748b; margin-bottom: 8px; }
+.source-card .meta { font-size: 0.8em; color: #94a3b8; }
+.source-card a { color: #2563eb; text-decoration: none; }
+.source-card a:hover { text-decoration: underline; }
+.expand-btn { cursor: pointer; color: #2563eb; font-size: 0.82em; white-space: nowrap; }
+.detail-row { display: none; }
+.detail-row.open { display: table-row; }
+.detail-cell { background: #f8fafc; padding: 20px 16px; font-size: 0.85em; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.detail-item { }
+.detail-item strong { color: #475569; font-size: 0.85em; }
+.detail-item div { color: #1e293b; margin-top: 2px; }
+.footer { text-align: center; padding: 40px 20px; color: #94a3b8; font-size: 0.85em; }
+@media (max-width: 768px) {
+    .stats-row { flex-direction: column; }
+    .source-cards { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+    <h1>📊 套利渠道全景报告</h1>
+    <p>数据来源：集思录 · 雪球 · 知乎 · 微信公众号 · 同花顺 · 小红书 &nbsp;|&nbsp; 更新：2026-06-04 08:25</p>
+</div>
+
+<div class="stats-row">
+    <div class="stat-card"><div class="num">20</div><div class="label">活跃套利渠道</div></div>
+    <div class="stat-card"><div class="num">8</div><div class="label">渠道大类</div></div>
+    <div class="stat-card"><div class="num">14</div><div class="label">推荐博主/来源</div></div>
+    <div class="stat-card"><div class="num">7</div><div class="label">低门槛渠道</div></div>
+</div>
+
+<div class="controls">
+    <input type="text" id="searchBox" placeholder="🔍 搜索渠道名称、分类、描述..." onkeyup="filterTable()">
+    <select id="diffFilter" onchange="filterTable()">
+        <option value="">全部难度</option>
+        <option value="极低">★ 极低</option>
+        <option value="低">★★ 低</option>
+        <option value="中">★★★ 中</option>
+        <option value="高">★★★★ 高</option>
+        <option value="极高">★★★★★ 极高</option>
+    </select>
+    <select id="catFilter" onchange="filterTable()">
+        <option value="">全部分类</option>
+        <option value="债券套利">债券套利 (3)</option>
+        <option value="基金套利">基金套利 (4)</option>
+        <option value="并购套利">并购套利 (2)</option>
+        <option value="打新套利">打新套利 (5)</option>
+        <option value="数字货币">数字货币 (1)</option>
+        <option value="现金管理">现金管理 (2)</option>
+        <option value="衍生品套利">衍生品套利 (2)</option>
+        <option value="跨境套利">跨境套利 (1)</option>
+    </select>
+    <div class="sort-btns">
+        <button class="active" onclick="sortTable('popularity', this)">📈 知名度</button>
+        <button onclick="sortTable('difficulty', this)">🎯 难易度</button>
+        <button onclick="sortTable('quota', this)">💰 额度低→高</button>
+        <button onclick="sortTable('return', this)">📊 收益率</button>
+    </div>
+</div>
+
+<div class="table-wrapper">
+<table id="channelTable">
+<thead>
+<tr>
+    <th>排名</th>
+    <th>渠道名称</th>
+    <th>分类</th>
+    <th>难度</th>
+    <th>额度</th>
+    <th>知名度</th>
+    <th>年化收益</th>
+    <th>风险</th>
+    <th>频率</th>
+    <th>简介</th>
+    <th>操作</th>
+</tr>
+</thead>
+<tbody>
+
+<tr class="channel-row" data-diff="低" data-cat="基金套利" data-name="LOF基金溢价套利（一拖六）">
+    <td>1</td>
+    <td><div class="ch-name">LOF基金溢价套利（一拖六）</div></td>
+    <td><div class="ch-cat">基金套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #84cc16">低</span></td>
+    <td><div class="quota-info">单账户100元，一拖六可达600元/日；需1折申购费券商</div></td>
+    <td><span class="pop-stars">★★★★★</span> <small>10/10</small></td>
+    <td><span class="ret-info">15.0%~80.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #84cc16">低</span></td>
+    <td>每日</td>
+    <td><div class="desc-preview">利用LOF基金场内市价高于场外净值的价差获利。申购按净值，卖出按市价，赚取溢价差。核心标的：标普500LOF、纳指LOF、黄金LOF等跨境品种。2025年黄金L...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(1)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-1">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)开通证券账户+基金账户 2)场内申购(按净值) 3)T+2到账 4)T+3场内卖出(按市价) 5)一拖六：1个TA账户+5个场外账户转托管</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>证券账户、基金账户、1折申购费券商(必备)、100元起步</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>T+2时间差内溢价消失(杀溢价)、流动性不足(日成交额<1000万不碰)、申购限额变化</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户（华宝/银河/华泰等）</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录、雪球、微信公众号</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>单账户100元，一拖六可达600元/日；需1折申购费券商</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.jisilu.cn/data/lof/#lof" target="_blank" style="display:block;margin-top:4px;">https://www.jisilu.cn/data/lof/#lof...</a><a href="https://xueqiu.com/7690805318/366223079" target="_blank" style="display:block;margin-top:4px;">https://xueqiu.com/7690805318/366223079...</a></div></div><div class="detail-item"><strong>👤 推荐博主</strong><div><a href="https://www.jisilu.cn" target="_blank" style="display:block;margin-top:4px;">集思录官方 (集思录)</a><a href="https://xueqiu.com/DAVID" target="_blank" style="display:block;margin-top:4px;">DAVID自由之路 (雪球)</a><a href="https://xueqiu.com/fengji" target="_blank" style="display:block;margin-top:4px;">持有封基 (雪球)</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="低" data-cat="打新套利" data-name="可转债打新套利">
+    <td>2</td>
+    <td><div class="ch-name">可转债打新套利</div></td>
+    <td><div class="ch-cat">打新套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #84cc16">低</span></td>
+    <td><div class="quota-info">每签1000元，2025年单账户收益约1000-3000元/年</div></td>
+    <td><span class="pop-stars">★★★★★</span> <small>10/10</small></td>
+    <td><span class="ret-info">10.0%~30.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #22c55e">极低</span></td>
+    <td>不定期（跟随发行）</td>
+    <td><div class="desc-preview">申购新发行可转债，上市首日卖出赚取差价。目前需满足2年交易经验+10万元资产门槛。2025年打新人数减少使中签率回升。...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(2)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-2">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)满足门槛(2年经验+10万资产) 2)开通可转债权限 3)新债发行日顶格申购 4)中签后缴款1000元 5)上市首日卖出</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>2年证券交易经验、20日日均资产≥10万元、开通可转债权限</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>破发风险(2025年极少)、中签率低、门槛提高后参与人数受限</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录、东方财富、同花顺</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>每签1000元，2025年单账户收益约1000-3000元/年</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.jisilu.cn/data/cbnew/#cb" target="_blank" style="display:block;margin-top:4px;">https://www.jisilu.cn/data/cbnew/#cb...</a><a href="https://data.eastmoney.com/kzz/default.html" target="_blank" style="display:block;margin-top:4px;">https://data.eastmoney.com/kzz/default.html...</a></div></div><div class="detail-item"><strong>👤 推荐博主</strong><div><a href="https://www.jisilu.cn/people/taotiehai" target="_blank" style="display:block;margin-top:4px;">饕餮海 (集思录/雪球)</a><a href="https://www.jisilu.cn/people/xiaoka" target="_blank" style="display:block;margin-top:4px;">小卡叔 (集思录)</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="低" data-cat="打新套利" data-name="A股打新套利（市值配售）">
+    <td>3</td>
+    <td><div class="ch-name">A股打新套利（市值配售）</div></td>
+    <td><div class="ch-cat">打新套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #84cc16">低</span></td>
+    <td><div class="quota-info">需持仓市值1万+才能参与</div></td>
+    <td><span class="pop-stars">★★★★★</span> <small>10/10</small></td>
+    <td><span class="ret-info">2.0%~10.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #22c55e">极低</span></td>
+    <td>不定期</td>
+    <td><div class="desc-preview">持有A股市值参与新股申购，中签后上市首日卖出。虽然中签率极低，但一旦中签收益可观(平均每签5000-15000元)。适合长期持股者顺便参与。...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(19)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-19">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)持有沪市/深市股票(各1万市值) 2)开通科创板/创业板(如需) 3)每日顶格申购 4)中签缴款 5)上市首日卖出</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>T-2日前20日日均市值≥1万元</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>持仓股票下跌风险、中签率极低</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>各券商APP、东方财富</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>需持仓市值1万+才能参与</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://data.eastmoney.com/xg/xg/default.html" target="_blank" style="display:block;margin-top:4px;">https://data.eastmoney.com/xg/xg/default.html...</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="极低" data-cat="现金管理" data-name="国债逆回购假日套利">
+    <td>4</td>
+    <td><div class="ch-name">国债逆回购假日套利</div></td>
+    <td><div class="ch-cat">现金管理</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #22c55e">极低</span></td>
+    <td><div class="quota-info">1000元起，上不封顶</div></td>
+    <td><span class="pop-stars">★★★★☆</span> <small>9/10</small></td>
+    <td><span class="ret-info">1.5%~6.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #22c55e">极低</span></td>
+    <td>每日（节假日重点）</td>
+    <td><div class="desc-preview">节假日/季末前操作国债逆回购，利用计息规则获取额外天数收益。可结合货币基金实现一鱼两吃。...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(10)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-10">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)节假日前2天关注 2)卖出逆回购(如GC001) 3)资金次日可用 4)再用资金申购货基享双重收益</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>证券账户、1000元以上资金</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>几乎无风险</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>各券商APP</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>1000元起，上不封顶</div></div>
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="中" data-cat="打新套利" data-name="港股打新套利">
+    <td>5</td>
+    <td><div class="ch-name">港股打新套利</div></td>
+    <td><div class="ch-cat">打新套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #f59e0b">中</span></td>
+    <td><div class="quota-info">建议每账户1-2万港币，一手中签率高</div></td>
+    <td><span class="pop-stars">★★★★☆</span> <small>8/10</small></td>
+    <td><span class="ret-info">10.0%~50.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #f59e0b">中</span></td>
+    <td>不定期（跟随IPO）</td>
+    <td><div class="desc-preview">2025年港交所IPO融资额全球第一，约2800亿港元。多账户现金打新无需融资利息，FINI平台缩短冻结期至2个工作日。2025年新消费、茶饮、潮玩等热门IPO...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(3)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-3">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)开通港股券商账户 2)入金 3)关注招股信息 4)现金申购(多账户策略) 5)暗盘或首日卖出</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>港股券商账户、港币资金、香港银行卡(出金需要)</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>破发风险、汇率风险、资金出入境限制、信息不对称</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>港股券商（富途/老虎/华泰国际等）</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>雪球、知乎、捷利交易宝</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>建议每账户1-2万港币，一手中签率高</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://xueqiu.com/2742791177/371848425" target="_blank" style="display:block;margin-top:4px;">https://xueqiu.com/2742791177/371848425...</a><a href="https://zhuanlan.zhihu.com/p/1990904637168038641" target="_blank" style="display:block;margin-top:4px;">https://zhuanlan.zhihu.com/p/1990904637168038641...</a></div></div><div class="detail-item"><strong>👤 推荐博主</strong><div><a href="https://www.jieniutrade.com" target="_blank" style="display:block;margin-top:4px;">捷利交易宝 (APP/公众号)</a><a href="https://xueqiu.com/topic/港股打新" target="_blank" style="display:block;margin-top:4px;">雪球港股打新话题 (雪球)</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="中" data-cat="基金套利" data-name="QDII基金折溢价套利">
+    <td>6</td>
+    <td><div class="ch-name">QDII基金折溢价套利</div></td>
+    <td><div class="ch-cat">基金套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #f59e0b">中</span></td>
+    <td><div class="quota-info">单只ETF最低100份</div></td>
+    <td><span class="pop-stars">★★★★☆</span> <small>8/10</small></td>
+    <td><span class="ret-info">10.0%~40.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #f59e0b">中</span></td>
+    <td>每日</td>
+    <td><div class="desc-preview">跨境ETF/QDII基金因外汇额度限制常出现持续溢价。通过IOPV监控溢价率，溢价时买入成分申购或折价时买入赎回。典型标的：纳指ETF、标普ETF、日经ETF等...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(17)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-17">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)关注QDII ETF溢价率(IOPV) 2)溢价高时申购 3)折价时二级买入赎回 4)赚取价差</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>证券账户、关注IOPV数据、承受T+2时间差</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>额度暂停申购、溢价率突变、汇率风险</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录、雪球、东方财富</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>单只ETF最低100份</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.jisilu.cn/data/qdii/#qdii" target="_blank" style="display:block;margin-top:4px;">https://www.jisilu.cn/data/qdii/#qdii...</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="低" data-cat="打新套利" data-name="REITs打新套利">
+    <td>7</td>
+    <td><div class="ch-name">REITs打新套利</div></td>
+    <td><div class="ch-cat">打新套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #84cc16">低</span></td>
+    <td><div class="quota-info">配售比例极低(0.25%)，认购100万可能获配2500元</div></td>
+    <td><span class="pop-stars">★★★☆☆</span> <small>7/10</small></td>
+    <td><span class="ret-info">3.0%~10.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #84cc16">低</span></td>
+    <td>不定期（跟随发行）</td>
+    <td><div class="desc-preview">2025年REITs市场持续火爆，华夏金隅智造工场REIT公众认购倍数288倍，配售比例低至0.25%。可与北交所打新时间窗口错开操作。...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(5)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-5">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)开通REITs权限 2)关注REITs发行公告 3)大额认购 4)获配后上市首日卖出</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>证券账户、开通REITs权限</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>配售比例极低致收益微薄、资金占用、破发风险(极小)</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录、东方财富</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>配售比例极低(0.25%)，认购100万可能获配2500元</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.jisilu.cn/data/reits/#reits" target="_blank" style="display:block;margin-top:4px;">https://www.jisilu.cn/data/reits/#reits...</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="中" data-cat="债券套利" data-name="可转债折价转股套利">
+    <td>8</td>
+    <td><div class="ch-name">可转债折价转股套利</div></td>
+    <td><div class="ch-cat">债券套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #f59e0b">中</span></td>
+    <td><div class="quota-info">取决于转债余额和折价幅度</div></td>
+    <td><span class="pop-stars">★★★☆☆</span> <small>7/10</small></td>
+    <td><span class="ret-info">5.0%~25.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #f59e0b">中</span></td>
+    <td>每日</td>
+    <td><div class="desc-preview">当可转债折价(市价低于转股价值)时，买入转债→转股→卖出正股，赚取折价差。建议在交易时间内完成全部操作，避免隔夜溢价率修复。...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(8)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-8">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)筛选负溢价率转债 2)买入转债 3)立即申请转股 4)T+1卖出正股</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>证券账户、开通可转债和转股权限、快速交易能力</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>隔夜溢价率修复、正股次日低开、流动性不足、操作失误</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录、同花顺、东方财富</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>取决于转债余额和折价幅度</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.jisilu.cn/data/cbnew/#cb" target="_blank" style="display:block;margin-top:4px;">https://www.jisilu.cn/data/cbnew/#cb...</a></div></div><div class="detail-item"><strong>👤 推荐博主</strong><div><a href="https://xueqiu.com/fengji" target="_blank" style="display:block;margin-top:4px;">持有封基 (雪球)</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="中" data-cat="数字货币" data-name="加密货币搬砖套利">
+    <td>9</td>
+    <td><div class="ch-name">加密货币搬砖套利</div></td>
+    <td><div class="ch-cat">数字货币</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #f59e0b">中</span></td>
+    <td><div class="quota-info">USDT本位，小资金也可参与</div></td>
+    <td><span class="pop-stars">★★★☆☆</span> <small>7/10</small></td>
+    <td><span class="ret-info">10.0%~50.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #f97316">高</span></td>
+    <td>每日</td>
+    <td><div class="desc-preview">利用不同交易所同一币种的价格差异搬砖套利。使用CCXT库可实时监控。USDT跨所搬砖是最常见的低门槛方式。闪电贷套利是高级玩法(O(1)资金门槛但需要智能合约开...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(16)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-16">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)注册2+交易所账号 2)双边充值USDT 3)监控价差(可用CCXT库) 4)低价所买入→提币→高价所卖出（或双边持仓同时操作）</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>多个交易所账户、编程能力(CCXT/API)、快速提币网络</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>提币时间差内价格变化、交易所风控/冻结、网络拥堵、政策合规风险</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>加密货币交易所(Binance/OKX/Bybit等)</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>知乎、GitHub、币圈社群</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>USDT本位，小资金也可参与</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.poloxue.com/posts/2025-02-16-arbitrage-between-cryptocurrency-exchanges-using-ccxt/" target="_blank" style="display:block;margin-top:4px;">https://www.poloxue.com/posts/2025-02-16-arbitrage-between-cryptocurre...</a><a href="https://www.odaily.news/zh-CN/post/5203278" target="_blank" style="display:block;margin-top:4px;">https://www.odaily.news/zh-CN/post/5203278...</a></div></div><div class="detail-item"><strong>👤 推荐博主</strong><div><a href="https://www.poloxue.com" target="_blank" style="display:block;margin-top:4px;">菠萝学 (技术博客)</a><a href="https://www.odaily.news" target="_blank" style="display:block;margin-top:4px;">Odaily星球日报 (媒体)</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="低" data-cat="基金套利" data-name="LOF基金折价套利">
+    <td>10</td>
+    <td><div class="ch-name">LOF基金折价套利</div></td>
+    <td><div class="ch-cat">基金套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #84cc16">低</span></td>
+    <td><div class="quota-info">折价>赎回费+交易成本即可操作</div></td>
+    <td><span class="pop-stars">★★★☆☆</span> <small>7/10</small></td>
+    <td><span class="ret-info">5.0%~20.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #84cc16">低</span></td>
+    <td>每日</td>
+    <td><div class="desc-preview">当LOF基金场内价格低于净值时(折价)，场内买入后按净值赎回获利。赎回费通常是成本关键(持有<7天1.5%，>7天0.5%)。适合有底仓的投资者顺便操作。...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(20)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-20">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)关注LOF折价率 2)场内买入 3)申请赎回(按净值) 4)资金T+2到账</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>证券账户、关注持有时间对赎回费影响</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>赎回费侵蚀利润、T+2时间差、折价幅度小不够覆盖成本</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录、雪球</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>折价>赎回费+交易成本即可操作</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.jisilu.cn/data/lof/#lof" target="_blank" style="display:block;margin-top:4px;">https://www.jisilu.cn/data/lof/#lof...</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="中" data-cat="打新套利" data-name="北交所打新套利">
+    <td>11</td>
+    <td><div class="ch-name">北交所打新套利</div></td>
+    <td><div class="ch-cat">打新套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #f59e0b">中</span></td>
+    <td><div class="quota-info">50万资产门槛，大资金占优；年化约3-5%无风险收益</div></td>
+    <td><span class="pop-stars">★★★☆☆</span> <small>6/10</small></td>
+    <td><span class="ret-info">3.0%~8.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #22c55e">极低</span></td>
+    <td>不定期（跟随发行）</td>
+    <td><div class="desc-preview">北交所打新无需持有股票市值，现金申购按比例配售。资金冻结2天，适合与逆回购/货基组合使用提升整体收益。2025年收益率走低但仍是确定性较高的大资金低风险套利。...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(4)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-4">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)开通北交所权限(20日日均50万) 2)关注新股发行 3)大额申购 4)资金冻结2天 5)上市首日卖出</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>20日日均资产≥50万元、2年交易经验、开通北交所权限</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>破发风险(极小)、资金占用成本、收益率持续走低</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户（开通北交所权限）</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录、东方财富、雪球</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>50万资产门槛，大资金占优；年化约3-5%无风险收益</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://xueqiu.com/9921859881/376058046" target="_blank" style="display:block;margin-top:4px;">https://xueqiu.com/9921859881/376058046...</a><a href="https://data.eastmoney.com/xg/xg/default.html" target="_blank" style="display:block;margin-top:4px;">https://data.eastmoney.com/xg/xg/default.html...</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="中" data-cat="并购套利" data-name="要约收购套利">
+    <td>12</td>
+    <td><div class="ch-name">要约收购套利</div></td>
+    <td><div class="ch-cat">并购套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #f59e0b">中</span></td>
+    <td><div class="quota-info">取决于要约规模，建议分散多标的</div></td>
+    <td><span class="pop-stars">★★★☆☆</span> <small>6/10</small></td>
+    <td><span class="ret-info">5.0%~30.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #f59e0b">中</span></td>
+    <td>不定期</td>
+    <td><div class="desc-preview">当上市公司发布要约收购，若市价低于要约价，买入后预受要约赚取价差。2025年是要约收购大年，多家公司涉及要约(抚顺特钢、上纬新材等)。...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(6)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-6">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)关注要约收购公告 2)分析要约价与市价差 3)买入股票 4)预受要约 5)等待收购完成回款</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>证券账户、基本面分析能力、分散投资意识</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>要约失败/撤回、股价跌破要约价、资金占用时间长</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录、雪球、巨潮资讯网</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>取决于要约规模，建议分散多标的</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.jisilu.cn/question/511371" target="_blank" style="display:block;margin-top:4px;">https://www.jisilu.cn/question/511371...</a><a href="https://xueqiu.com/8194824156/384869594" target="_blank" style="display:block;margin-top:4px;">https://xueqiu.com/8194824156/384869594...</a></div></div><div class="detail-item"><strong>👤 推荐博主</strong><div><a href="https://www.jisilu.cn/people/宿不移" target="_blank" style="display:block;margin-top:4px;">宿不移 (集思录)</a><a href="https://xueqiu.com/8003408867" target="_blank" style="display:block;margin-top:4px;">wbb渐入佳境 (雪球)</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="极低" data-cat="现金管理" data-name="货币基金申赎套利（场内货基）">
+    <td>13</td>
+    <td><div class="ch-name">货币基金申赎套利（场内货基）</div></td>
+    <td><div class="ch-cat">现金管理</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #22c55e">极低</span></td>
+    <td><div class="quota-info">场内货基一手约1万元</div></td>
+    <td><span class="pop-stars">★★★☆☆</span> <small>6/10</small></td>
+    <td><span class="ret-info">2.0%~4.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #22c55e">极低</span></td>
+    <td>每日</td>
+    <td><div class="desc-preview">场内货币ETF有时出现折价，买入后赎回赚取价差；或利用计息规则(算头不算尾等)获取额外利息。适合资金闲置时的现金管理增强。...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(11)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-11">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)关注场内货基折溢价 2)折价买入 3)赎回获取净值 4)或利用计息规则跨节操作</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>证券账户</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>几乎无风险，但收益微薄</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>场内货基一手约1万元</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.jisilu.cn/data/repo/#t0_hq" target="_blank" style="display:block;margin-top:4px;">https://www.jisilu.cn/data/repo/#t0_hq...</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="高" data-cat="跨境套利" data-name="AH股溢价套利">
+    <td>14</td>
+    <td><div class="ch-name">AH股溢价套利</div></td>
+    <td><div class="ch-cat">跨境套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #f97316">高</span></td>
+    <td><div class="quota-info">需双市场账户，资金门槛高</div></td>
+    <td><span class="pop-stars">★★★☆☆</span> <small>6/10</small></td>
+    <td><span class="ret-info">5.0%~20.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #f97316">高</span></td>
+    <td>不定期</td>
+    <td><div class="desc-preview">利用同一公司A股和H股的价格差异套利。A股通常对H股溢价(恒生AH溢价指数130-150区间波动)。当溢价率极端偏离均值时有回归机会。可做多H股做空A股(或通过...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(12)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-12">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)监控恒生AH溢价指数 2)识别极端偏离个股 3)同时操作A股卖出+H股买入(或有底仓套利) 4)溢价率回归后平仓</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>A股账户、港股账户(或港股通)、大额资金、做空工具</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>溢价率可能长期不回归、汇率风险、做空成本高、流动性差异</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>A股账户+港股账户</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>雪球、东方财富</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>需双市场账户，资金门槛高</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://xueqiu.com/S/HSI.HSCEHI" target="_blank" style="display:block;margin-top:4px;">https://xueqiu.com/S/HSI.HSCEHI...</a></div></div><div class="detail-item"><strong>👤 推荐博主</strong><div><a href="https://xueqiu.com/liushuibaicai" target="_blank" style="display:block;margin-top:4px;">流水白菜 (雪球)</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="中" data-cat="债券套利" data-name="可转债轮动套利（量化）">
+    <td>15</td>
+    <td><div class="ch-name">可转债轮动套利（量化）</div></td>
+    <td><div class="ch-cat">债券套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #f59e0b">中</span></td>
+    <td><div class="quota-info">建议10万+用于分散持仓</div></td>
+    <td><span class="pop-stars">★★★☆☆</span> <small>6/10</small></td>
+    <td><span class="ret-info">10.0%~35.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #f59e0b">中</span></td>
+    <td>每日/每周</td>
+    <td><div class="desc-preview">通过量化策略轮动持有可转债组合：双低轮动(低价格+低溢价)、三低轮动等。有债底保护，下有保底、上不封顶。集思录等权指数2019-2025年的高收益验证策略有效性...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(18)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-18">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)学习可转债基本规则 2)选择轮动策略(双低/三低) 3)定期调仓(每周/每月) 4)持续分散持仓</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>证券账户、开通可转债权限、10万+资金、量化工具(可选)</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>正股持续下跌、信用风险(极低)、流动性风险、策略失效</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户+量化工具(QMT/聚宽)</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录、雪球、JoinQuant</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>建议10万+用于分散持仓</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.jisilu.cn/data/cbnew/#cb" target="_blank" style="display:block;margin-top:4px;">https://www.jisilu.cn/data/cbnew/#cb...</a><a href="https://xueqiu.com/8003408867/368628780" target="_blank" style="display:block;margin-top:4px;">https://xueqiu.com/8003408867/368628780...</a></div></div><div class="detail-item"><strong>👤 推荐博主</strong><div><a href="https://xueqiu.com/fengji" target="_blank" style="display:block;margin-top:4px;">持有封基（金伟民） (雪球)</a><a href="https://www.jisilu.cn/people/xiaoka" target="_blank" style="display:block;margin-top:4px;">小卡叔 (集思录)</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="高" data-cat="并购套利" data-name="吸收合并/现金选择权套利">
+    <td>16</td>
+    <td><div class="ch-name">吸收合并/现金选择权套利</div></td>
+    <td><div class="ch-cat">并购套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #f97316">高</span></td>
+    <td><div class="quota-info">如中金三合一（信达证券现金选择权17.79元）</div></td>
+    <td><span class="pop-stars">★★☆☆☆</span> <small>5/10</small></td>
+    <td><span class="ret-info">3.0%~15.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #f59e0b">中</span></td>
+    <td>不定期</td>
+    <td><div class="desc-preview">吸收合并中，异议股东有现金选择权。买入价格低于现金选择权价格时形成套利空间。如中金公司三合一：信达证券现价约17.3元，保底价17.79元，约3%套利空间。...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(7)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-7">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)关注吸收合并公告 2)计算现金选择权与市价差 3)买入股票 4)投反对票保留现金选择权 5)等待回款</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>证券账户、理解公司章程和收购规则</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>合并失败、股价大跌、资金占用3-6个月、年化收益不高</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录、巨潮资讯网</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>如中金三合一（信达证券现金选择权17.79元）</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.jisilu.cn/question/519450" target="_blank" style="display:block;margin-top:4px;">https://www.jisilu.cn/question/519450...</a></div></div><div class="detail-item"><strong>👤 推荐博主</strong><div><a href="https://www.jisilu.cn/home/explore/sort_type-new__category-5__day-0" target="_blank" style="display:block;margin-top:4px;">集思录套利区 (集思录)</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="中" data-cat="债券套利" data-name="可转债配债套利（沪市1手党）">
+    <td>17</td>
+    <td><div class="ch-name">可转债配债套利（沪市1手党）</div></td>
+    <td><div class="ch-cat">债券套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #f59e0b">中</span></td>
+    <td><div class="quota-info">需要买入正股参与配债</div></td>
+    <td><span class="pop-stars">★★☆☆☆</span> <small>5/10</small></td>
+    <td><span class="ret-info">10.0%~40.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #f59e0b">中</span></td>
+    <td>不定期</td>
+    <td><div class="desc-preview">在转债发行前买入正股获得配售权，沪市最小配售单位为1手(1000元)，可通过精确计算最小持股数参与配债。需承担正股波动风险。...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(9)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-9">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)关注转债发行公告 2)计算最小配售股数 3)T-1日买入正股 4)T日参与配售 5)转债上市后卖出+正股择机卖出</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>证券账户、精确计算能力、正股风险承受能力</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>正股下跌风险、配债计算错误、转债上市表现不及预期</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录、雪球</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>需要买入正股参与配债</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.jisilu.cn/data/cbnew/#cb" target="_blank" style="display:block;margin-top:4px;">https://www.jisilu.cn/data/cbnew/#cb...</a></div></div><div class="detail-item"><strong>👤 推荐博主</strong><div><a href="https://www.jisilu.cn/people/taotiehai" target="_blank" style="display:block;margin-top:4px;">饕餮海 (集思录)</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="高" data-cat="衍生品套利" data-name="股指期货期现套利">
+    <td>18</td>
+    <td><div class="ch-name">股指期货期现套利</div></td>
+    <td><div class="ch-cat">衍生品套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #f97316">高</span></td>
+    <td><div class="quota-info">1手IF约100万名义本金</div></td>
+    <td><span class="pop-stars">★★☆☆☆</span> <small>5/10</small></td>
+    <td><span class="ret-info">3.0%~10.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #f59e0b">中</span></td>
+    <td>每月（移仓换月）</td>
+    <td><div class="desc-preview">利用股指期货与现货指数的价差套利。常见策略：吃贴水——做多IC/IM(中证500/1000期货通常贴水)，滚动换月获取基差收益。集思录上有人用此策略年化增强5-...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(14)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-14">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)开通股指期货 2)关注期货升贴水 3)贴水时做多期货 4)持有到期或换月滚动 5)如需对冲可同时做空ETF</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>期货账户、50万保证金、专业知识</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>基差扩大风险、保证金追加、换月成本、极端行情爆仓</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>期货账户+证券账户</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录、雪球</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>1手IF约100万名义本金</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.jisilu.cn/question/516721" target="_blank" style="display:block;margin-top:4px;">https://www.jisilu.cn/question/516721...</a></div></div><div class="detail-item"><strong>👤 推荐博主</strong><div><a href="https://xueqiu.com/DAVID" target="_blank" style="display:block;margin-top:4px;">DAVID自由之路 (雪球)</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="高" data-cat="基金套利" data-name="ETF申赎套利">
+    <td>19</td>
+    <td><div class="ch-name">ETF申赎套利</div></td>
+    <td><div class="ch-cat">基金套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #f97316">高</span></td>
+    <td><div class="quota-info">ETF最小申购赎回单位通常几十万至百万份</div></td>
+    <td><span class="pop-stars">★★☆☆☆</span> <small>4/10</small></td>
+    <td><span class="ret-info">5.0%~15.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #f59e0b">中</span></td>
+    <td>每日</td>
+    <td><div class="desc-preview">ETF有实时IOPV(实时参考净值)，当市价与IOPV偏离时可通过申购/赎回篮子套利。需要专业交易软件(QMT/迅投)和大量资金。集思录上有部分人用迅投QMT自...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(13)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-13">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)监控ETF溢价率 2)溢价时买入成分股→申购ETF→卖出ETF 3)折价时买入ETF→赎回成分股→卖出成分股</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>大额资金(50万+)、专业交易软件(QMT)、快速交易通道</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>操作延迟、成分股买卖冲击成本、申购赎回限制</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>证券账户+专业交易软件(QMT/迅投)</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>ETF最小申购赎回单位通常几十万至百万份</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.jisilu.cn/question/516721" target="_blank" style="display:block;margin-top:4px;">https://www.jisilu.cn/question/516721...</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr class="channel-row" data-diff="极高" data-cat="衍生品套利" data-name="期权套利（盒式/平价/波动率）">
+    <td>20</td>
+    <td><div class="ch-name">期权套利（盒式/平价/波动率）</div></td>
+    <td><div class="ch-cat">衍生品套利</div></td>
+    <td><span class="badge badge-diff" style="border-left:3px solid #ef4444">极高</span></td>
+    <td><div class="quota-info">需期权模拟交易经验+50万门槛</div></td>
+    <td><span class="pop-stars">★★☆☆☆</span> <small>4/10</small></td>
+    <td><span class="ret-info">5.0%~20.0%</span></td>
+    <td><span class="badge badge-risk" style="border-left:3px solid #f59e0b">中</span></td>
+    <td>每日</td>
+    <td><div class="desc-preview">利用期权定价偏离(Put-Call Parity偏离)进行盒式套利(Box Spread)获取类固收收益；或做多/做空波动率进行波动率套利。需要专业定价模型。...</div></td>
+    <td><span class="expand-btn" onclick="toggleDetail(15)">展开▾</span></td>
+</tr>
+<tr class="detail-row" id="detail-15">
+    <td colspan="11">
+        <div class="detail-cell">
+            <div class="detail-grid">
+                <div class="detail-item"><strong>📝 操作步骤</strong><div>1)开通期权账户 2)监控期权合成期货与真实期货价差 3)构建盒式组合(买入牛市价差+熊市价差) 4)持有到期</div></div>
+                <div class="detail-item"><strong>🚪 参与门槛</strong><div>期权账户(50万门槛+考试+模拟经验)、定价模型、程序化交易</div></div>
+                <div class="detail-item"><strong>⚠️ 主要风险</strong><div>行权失败、流动性差、价差无法收敛、交易成本侵蚀</div></div>
+                <div class="detail-item"><strong>🏦 操作平台</strong><div>期权账户</div></div>
+                <div class="detail-item"><strong>📱 信息平台</strong><div>集思录</div></div>
+                <div class="detail-item"><strong>💰 额度说明</strong><div>需期权模拟交易经验+50万门槛</div></div>
+<div class="detail-item"><strong>🔗 参考链接</strong><div><a href="https://www.jisilu.cn/topic/套利低风险" target="_blank" style="display:block;margin-top:4px;">https://www.jisilu.cn/topic/套利低风险...</a></div></div>
+            </div>
+        </div>
+    </td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<div class="sources-section">
+    <h2>📢 推荐关注：套利相关博主 & 信息来源</h2>
+    <div class="source-cards">
+
+<div class="source-card">
+    <h3>集思录</h3>
+    <div class="platform-tag">网站/APP/公众号</div>
+    <div class="desc">国内最大的低风险投资社区，提供可转债、LOF、新股、REITs等实时数据。公众号：jisilu8。套利者必备工具。</div>
+    <div class="meta">⭐⭐⭐⭐⭐ 可靠性 · 百万级用户 · 实时更新</div>
+    <div style="margin-top:8px;font-size:0.82em;">🔗 <a href="https://www.jisilu.cn" target="_blank">https://www.jisilu.cn</a></div>
+</div>
+
+<div class="source-card">
+    <h3>DAVID自由之路</h3>
+    <div class="platform-tag">雪球</div>
+    <div class="desc">追求年化12-15%稳健收益，擅长可转债轮动、高分红标的、各类套利策略。策略可落地性强。</div>
+    <div class="meta">⭐⭐⭐⭐⭐ 可靠性 · 10万+ · 每日更新</div>
+    <div style="margin-top:8px;font-size:0.82em;">🔗 <a href="https://xueqiu.com/DAVID" target="_blank">https://xueqiu.com/DAVID</a></div>
+</div>
+
+<div class="source-card">
+    <h3>持有封基（金伟民）</h3>
+    <div class="platform-tag">雪球</div>
+    <div class="desc">19年投资经验，年化22%，满仓轮动策略。定期分享量化策略和实盘业绩，拓展套利思路。</div>
+    <div class="meta">⭐⭐⭐⭐⭐ 可靠性 · 10万+ · 每日更新</div>
+    <div style="margin-top:8px;font-size:0.82em;">🔗 <a href="https://xueqiu.com/fengji" target="_blank">https://xueqiu.com/fengji</a></div>
+</div>
+
+<div class="source-card">
+    <h3>饕餮海</h3>
+    <div class="platform-tag">集思录/雪球</div>
+    <div class="desc">可转债领域深度研究者，提供新债分析、配债计算、套利机会提示。在集思录和雪球均有活跃。</div>
+    <div class="meta">⭐⭐⭐⭐⭐ 可靠性 · 5万+ · 每日更新</div>
+    <div style="margin-top:8px;font-size:0.82em;">🔗 <a href="https://www.jisilu.cn/people/taotiehai" target="_blank">https://www.jisilu.cn/people/taotiehai</a></div>
+</div>
+
+<div class="source-card">
+    <h3>小卡叔</h3>
+    <div class="platform-tag">集思录</div>
+    <div class="desc">可转债等权指数践行者，2019-2025年持续高收益。分享可转债轮动和套利心得。</div>
+    <div class="meta">⭐⭐⭐⭐⭐ 可靠性 · 3万+ · 每周更新</div>
+    <div style="margin-top:8px;font-size:0.82em;">🔗 <a href="https://www.jisilu.cn/people/xiaoka" target="_blank">https://www.jisilu.cn/people/xiaoka</a></div>
+</div>
+
+<div class="source-card">
+    <h3>集思录公众号</h3>
+    <div class="platform-tag">微信公众号</div>
+    <div class="desc">集思录官方公众号，推送每日套利机会、可转债数据、新股信息。</div>
+    <div class="meta">⭐⭐⭐⭐⭐ 可靠性 · 百万+ · 每日更新</div>
+    <div style="margin-top:8px;font-size:0.82em;">🔗 微信公众号: jisilu8</div>
+</div>
+
+<div class="source-card">
+    <h3>小卡叔的2025年投资总结</h3>
+    <div class="platform-tag">集思录</div>
+    <div class="desc">深度回顾可转债等权指数2019-2025年表现，验证转债轮动套利长期有效性。</div>
+    <div class="meta">⭐⭐⭐⭐⭐ 可靠性 · 热门文章 · 按年更新</div>
+    <div style="margin-top:8px;font-size:0.82em;">🔗 <a href="https://www.jisilu.cn/question/516756" target="_blank">https://www.jisilu.cn/question/516756</a></div>
+</div>
+
+<div class="source-card">
+    <h3>流水白菜</h3>
+    <div class="platform-tag">雪球</div>
+    <div class="desc">长期跟踪中国平安等保险龙头，擅长AH套利，追求稳健收益。定期分享套利策略。</div>
+    <div class="meta">⭐⭐⭐⭐ 可靠性 · 5万+ · 每周更新</div>
+    <div style="margin-top:8px;font-size:0.82em;">🔗 <a href="https://xueqiu.com/liushuibaicai" target="_blank">https://xueqiu.com/liushuibaicai</a></div>
+</div>
+
+<div class="source-card">
+    <h3>宿不移</h3>
+    <div class="platform-tag">集思录</div>
+    <div class="desc">要约收购套利达人，在上纬新材、抚顺特钢等案例中有深入分析。</div>
+    <div class="meta">⭐⭐⭐⭐ 可靠性 · 1万+ · 不定期更新</div>
+    <div style="margin-top:8px;font-size:0.82em;">🔗 <a href="https://www.jisilu.cn/people/宿不移" target="_blank">https://www.jisilu.cn/people/宿不移</a></div>
+</div>
+
+<div class="source-card">
+    <h3>wbb渐入佳境</h3>
+    <div class="platform-tag">雪球</div>
+    <div class="desc">低相关多策略套利：要约收购、吸收合并、可转债强赎/折价等，2025年套利贡献显著收益。</div>
+    <div class="meta">⭐⭐⭐⭐ 可靠性 · 1万+ · 每周更新</div>
+    <div style="margin-top:8px;font-size:0.82em;">🔗 <a href="https://xueqiu.com/8003408867" target="_blank">https://xueqiu.com/8003408867</a></div>
+</div>
+
+<div class="source-card">
+    <h3>小丫投资笔记</h3>
+    <div class="platform-tag">雪球/公众号</div>
+    <div class="desc">专注LOF基金套利和可转债套利，分享实操教程。2026年1月发布了LOF+可转债双套利详解。</div>
+    <div class="meta">⭐⭐⭐⭐ 可靠性 · 1万+ · 每日更新</div>
+    <div style="margin-top:8px;font-size:0.82em;">🔗 <a href="https://xueqiu.com/8634346939" target="_blank">https://xueqiu.com/8634346939</a></div>
+</div>
+
+<div class="source-card">
+    <h3>知乎LOF套利全攻略</h3>
+    <div class="platform-tag">知乎</div>
+    <div class="desc">知乎上最全面的LOF套利教程汇总，覆盖有底仓/无底仓两种模式及夜盘挂单技巧。</div>
+    <div class="meta">⭐⭐⭐⭐ 可靠性 · 高赞文章 · 不定期更新</div>
+    <div style="margin-top:8px;font-size:0.82em;">🔗 <a href="https://zhuanlan.zhihu.com/p/2012562971331675696" target="_blank">https://zhuanlan.zhihu.com/p/2012562971331675696</a></div>
+</div>
+
+<div class="source-card">
+    <h3>知乎低风险套利汇总</h3>
+    <div class="platform-tag">知乎</div>
+    <div class="desc">系统梳理A股低风险套利渠道：可转债打新、LOF套利、打新股、分级基金等。入门必读。</div>
+    <div class="meta">⭐⭐⭐⭐ 可靠性 · 经典文章 · 不定期更新</div>
+    <div style="margin-top:8px;font-size:0.82em;">🔗 <a href="https://zhuanlan.zhihu.com/p/108456963" target="_blank">https://zhuanlan.zhihu.com/p/108456963</a></div>
+</div>
+
+<div class="source-card">
+    <h3>规则红利与风险把控:2026基金套利全解析</h3>
+    <div class="platform-tag">微信公众号</div>
+    <div class="desc">2026年LOF基金套利全解析，筛选标准：溢价率≥3%+日成交额>1000万。</div>
+    <div class="meta">⭐⭐⭐⭐ 可靠性 · 专业文章 · 不定期更新</div>
+    <div style="margin-top:8px;font-size:0.82em;">🔗 <a href="https://mp.weixin.qq.com/s?__biz=MzI0OTIyNTk0Nw==&mid=2651713124&idx=3&sn=7384da27e7655e7b7226289af4d0fcc4" target="_blank">https://mp.weixin.qq.com/s?__biz=MzI0OTIyNTk0Nw==&mid=2651713124&idx=3&sn=7384da27e7655e7b7226289af4d0fcc4</a></div>
+</div>
+
+    </div>
+</div>
+
+<div class="footer">
+    <p>📊 套利渠道追踪系统 &copy; 2026 | 每日自动更新 | 数据仅供参考，不构成投资建议</p>
+</div>
+
+</div>
+
+<script>
+function filterTable() {
+    var search = document.getElementById('searchBox').value.toLowerCase();
+    var diff = document.getElementById('diffFilter').value;
+    var cat = document.getElementById('catFilter').value;
+    var rows = document.querySelectorAll('.channel-row');
+    var count = 0;
+    rows.forEach(function(row) {
+        var name = row.getAttribute('data-name').toLowerCase();
+        var rDiff = row.getAttribute('data-diff');
+        var rCat = row.getAttribute('data-cat');
+        var show = true;
+        if (search && !name.includes(search)) show = false;
+        if (diff && rDiff !== diff) show = false;
+        if (cat && rCat !== cat) show = false;
+        row.style.display = show ? '' : 'none';
+        // 隐藏对应详情行
+        var detailRow = row.nextElementSibling;
+        if (detailRow && detailRow.classList.contains('detail-row')) {
+            detailRow.style.display = 'none';
+            detailRow.classList.remove('open');
+        }
+        if (show) count++;
+    });
+}
+
+function toggleDetail(id) {
+    var detail = document.getElementById('detail-' + id);
+    if (detail.classList.contains('open')) {
+        detail.classList.remove('open');
+        detail.style.display = 'none';
+    } else {
+        detail.classList.add('open');
+        detail.style.display = 'table-row';
+    }
+}
+
+function sortTable(sortBy, btn) {
+    // 切换active状态
+    document.querySelectorAll('.sort-btns button').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    // 重新加载页面
+    window.location.href = '?sort=' + sortBy;
+}
+
+// 从URL获取排序参数
+var urlParams = new URLSearchParams(window.location.search);
+var sort = urlParams.get('sort');
+if (sort) {
+    var activeBtn = document.querySelector('[onclick*="' + sort + '"]');
+    if (activeBtn) {
+        document.querySelectorAll('.sort-btns button').forEach(function(b) { b.classList.remove('active'); });
+        activeBtn.classList.add('active');
+    }
+}
+</script>
+</body>
+</html>
