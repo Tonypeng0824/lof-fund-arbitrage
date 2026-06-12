@@ -342,45 +342,6 @@ def git_push():
         print(f'  ⚠️ Git 推送失败: {result.stderr[:200]}')
         return False
 
-def vercel_deploy():
-    """部署 github-pages/ 到 Vercel 生产环境（静态文件，无需构建）。"""
-    import re
-    orig_dir = os.getcwd()
-    os.chdir(GITHUB_PAGES)
-    try:
-        print(f'\n{"="*60}')
-        print('▶ Vercel 生产部署')
-        print(f'{"="*60}')
-        # 查找 npx 路径
-        npx = 'npx'
-        if os.name == 'nt':
-            wb_node = r'C:\Users\Administrator\.workbuddy\binaries\node\versions\22.22.2\npx.cmd'
-            if os.path.exists(wb_node):
-                npx = wb_node
-        cmd = [npx, 'vercel', '--prod', '--yes']
-        result = subprocess.run(
-            cmd, capture_output=True, text=True, timeout=180
-        )
-        output = result.stdout + '\n' + result.stderr
-        if 'Ready' in output or 'Aliased' in output or result.returncode == 0:
-            match = re.search(r'https://[^\s`]+\.vercel\.app', output)
-            url = match.group(0) if match else 'https://lof-fund-arbitrage.vercel.app'
-            print('  ✅ Vercel 部署成功')
-            print('  生产地址: <ADDRESS_REMOVED>{url}'.format(url=url))
-            return True
-        else:
-            print(f'  ⚠️ Vercel 部署失败 (code={result.returncode})')
-            print(f'  {output[-500:]}')
-            return False
-    except subprocess.TimeoutExpired:
-        print('  ⚠️ Vercel 部署超时（>180s），请手动检查')
-        return False
-    except Exception as e:
-        print(f'  ⚠️ Vercel 部署异常: {e}')
-        return False
-    finally:
-        os.chdir(orig_dir)
-
 def main():
     print('=== LOF限额每日采集 - 完整自动化 ===')
     print(f'工作目录: {WORKSPACE}')
@@ -416,14 +377,13 @@ def main():
     print(f'{"="*60}')
     build_key_funds_index()
 
-    # Step 5: Git 提交与推送
+    # Step 5: Git 提交与推送（触发 GitHub Pages + Vercel 自动部署）
     print(f'\n{"="*60}')
-    print('▶ Git 提交与推送（触发 GitHub Pages 自动部署）')
+    print('▶ Git 提交与推送')
     print(f'{"="*60}')
     git_push()
-
-    # Step 6: Vercel 生产部署
-    vercel_deploy()
+    print(f'\n  ℹℹ Vercel 将在 Git 推送后自动部署（已连接 GitHub 仓库）')
+    print(f'  ℹℹ GitHub Pages 将在 Git 推送后自动部署')
 
     print(f'\n=== 全部完成 ===')
     print(f'结束时间: {time.strftime("%Y-%m-%d %H:%M:%S")}')
