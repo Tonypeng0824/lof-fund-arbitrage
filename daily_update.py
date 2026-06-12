@@ -112,18 +112,32 @@ def run_daily_update():
     dated_report_path = os.path.join(BASE_DIR, dated_report_name)
 
     # 4. 同步到 GitHub Pages 目录
+    # 4.1 同步到 github-pages/（备用）
     if os.path.exists(PAGES_DIR):
         # 套利报告 → 带日期的版本（用于历史对比）
         dated_pages_path = os.path.join(PAGES_DIR, dated_report_name)
         if os.path.exists(dated_report_path):
             shutil.copy2(dated_report_path, dated_pages_path)
-            print(f"\n📤 已同步 dated 报告: {dated_pages_path}")
+            print(f"\n📤 已同步 dated 报告 (github-pages/): {dated_pages_path}")
         
         # 套利报告 → arbitrage.html（最新版本，用于首页访问）
         arbitrage_path = os.path.join(PAGES_DIR, "arbitrage.html")
         if os.path.exists(report_path):
             shutil.copy2(report_path, arbitrage_path)
-            print(f"📤 已同步最新报告: {arbitrage_path}")
+            print(f"📤 已同步最新报告 (github-pages/): {arbitrage_path}")
+    
+    # 4.2 同步到根目录（GitHub Pages / (root) 模式）
+    # 套利报告 → 带日期的版本
+    if os.path.exists(dated_report_path):
+        root_dated_path = os.path.join(BASE_DIR, dated_report_name)
+        shutil.copy2(dated_report_path, root_dated_path)
+        print(f"📤 已同步 dated 报告 (根目录): {root_dated_path}")
+    
+    # 套利报告 → arbitrage.html（最新版本）
+    if os.path.exists(report_path):
+        root_arbitrage_path = os.path.join(BASE_DIR, "arbitrage.html")
+        shutil.copy2(report_path, root_arbitrage_path)
+        print(f"📤 已同步最新报告 (根目录): {root_arbitrage_path}")
 
     print(f"\n✅ 更新完成！报告路径: {report_path}")
     return report_path
