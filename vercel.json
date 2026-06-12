@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "name": "lof-fund-arbitrage",
+  "outputDirectory": "github-pages",
+  "buildCommand": "echo 'static site, no build needed'",
+  "devCommand": "python -m http.server 3000 --directory github-pages",
+  "installCommand": "echo 'no install needed'",
+  "framework": null,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/$1" }
+  ]
+}
