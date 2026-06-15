@@ -57,19 +57,21 @@ def copy_to_github_pages():
         print(f'  ✅ 最新报告入口已复制: lof_full_report.html')
         copied += 1
 
-    # 3) 重点基金独立报告
-    reports_dir = os.path.join(WORKSPACE, 'reports')
-    if os.path.exists(reports_dir):
+    # 3) 重点基金独立报告 → 复制到 reports/ 子目录
+    reports_src_dir = os.path.join(WORKSPACE, 'reports')
+    reports_dst_dir = os.path.join(GITHUB_PAGES, 'reports')
+    os.makedirs(reports_dst_dir, exist_ok=True)
+    if os.path.exists(reports_src_dir):
         count = 0
-        for fname in os.listdir(reports_dir):
+        for fname in os.listdir(reports_src_dir):
             if fname.endswith('_report.html'):
-                src = os.path.join(reports_dir, fname)
-                dst = os.path.join(GITHUB_PAGES, fname)
+                src = os.path.join(reports_src_dir, fname)
+                dst = os.path.join(reports_dst_dir, fname)
                 shutil.copy2(src, dst)
                 copied += 1
                 count += 1
         if count > 0:
-            print(f'  ✅ 独立报告已复制: {count} 个')
+            print(f'  ✅ 独立报告已复制到 reports/ 子目录: {count} 个')
 
     # 4) 生成/更新报告索引页
     build_reports_index()
@@ -119,8 +121,8 @@ def build_key_funds_index():
     rows_html = ''
     for f in funds:
         code = f['code']
-        report_file = f'{code}_report.html'
-        report_path = os.path.join(GITHUB_PAGES, report_file)
+        report_file = f'reports/{code}_report.html'
+        report_path = os.path.join(GITHUB_PAGES, 'reports', f'{code}_report.html')
 
         if os.path.exists(report_path):
             link = (f'<a href="{report_file}" target="_blank" '
@@ -316,6 +318,46 @@ def build_reports_index():
         f.write(html)
     print(f'  ✅ 报告归档索引已生成: lof_reports_archive.html ({len(files)} 份报告)')
 
+def vercel_deploy():
+    """部署到 Vercel（lof-fund-arbitrage 项目）。"""
+    import shutil
+    vercel_exe = shutil.which('npx')
+    if not vercel_exe:
+        # 尝试常见路径
+        candidates = [
+            r'C:\Program Files\nodejs\npx.cmd',
+            r'C:\Users\Administrator\AppData\Roaming\npm\npx.cmd',
+        ]
+        for c in candidates:
+            if os.path.exists(c):
+                vercel_exe = c
+                break
+        if not vercel_exe:
+            print('  ⚠️ 找不到 npx，跳过 Vercel 部署')
+            return False
+
+    print('  ▶ 运行 Vercel 部署（lof-fund-arbitrage）...')
+    result = subprocess.run(
+        ['npx', 'vercel', 'deploy', '--prod', '--yes'],
+        cwd=GITHUB_PAGES,
+        capture_output=True, text=True,
+        timeout=120,
+    )
+    output = result.stdout + result.stderr
+    if result.returncode == 0:
+        # 提取生产 URL
+        url = ''
+        for line in output.splitlines():
+            if 'https://' in line and 'vercel.app' in line:
+                url = line.strip()
+                break
+        print(f'  ✅ Vercel 部署成功 → {url if url else "已更新"}')
+        return True
+    else:
+        print(f'  ⚠️ Vercel 部署失败: {output[-300:]}')
+        return False
+
+
 def git_push():
     """提交并推送到 GitHub。"""
     os.chdir(GITHUB_PAGES)
@@ -377,13 +419,17 @@ def main():
     print(f'{"="*60}')
     build_key_funds_index()
 
-    # Step 5: Git 提交与推送（触发 GitHub Pages + Vercel 自动部署）
+    # Step 5: Git 提交与推送（触发 GitHub Pages 自动部署）
     print(f'\n{"="*60}')
     print('▶ Git 提交与推送')
     print(f'{"="*60}')
     git_push()
-    print(f'\n  ℹℹ Vercel 将在 Git 推送后自动部署（已连接 GitHub 仓库）')
-    print(f'  ℹℹ GitHub Pages 将在 Git 推送后自动部署')
+
+    # Step 6: Vercel 部署（lof-fund-arbitrage 项目）
+    print(f'\n{"="*60}')
+    print('▶ Vercel 部署')
+    print(f'{"="*60}')
+    vercel_deploy()
 
     print(f'\n=== 全部完成 ===')
     print(f'结束时间: {time.strftime("%Y-%m-%d %H:%M:%S")}')
