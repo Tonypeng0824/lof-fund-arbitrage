@@ -25,28 +25,26 @@
         .code-link:hover { text-decoration: underline; }
         .status-limited { color: #f5222d; font-weight: bold; }
         .status-open { color: #52c41a; }
-        .limit-warning { color: #fa8c16; }
-        .stats { display: flex; gap: 20px; padding: 15px 20px; background: #f8f9fa; margin: 10px 20px; border-radius: 5px; }
-        .stat-item { flex: 1; text-align: center; }
-        .stat-value { font-size: 20px; font-weight: bold; color: #667eea; }
-        .stat-label { font-size: 12px; color: #666; margin-top: 5px; }
+        .change-add { color: #f5222d; }
+        .change-remove { color: #52c41a; }
         .search-box { padding: 10px 20px; }
         .search-box input { width: 300px; padding: 8px 12px; border: 1px solid #d9d9d9; border-radius: 4px; font-size: 14px; }
+        .notice { background: #fff3cd; border: 1px solid #ffc107; padding: 15px; margin: 20px; border-radius: 5px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>📊 LOF/QDII/纳指标普 溢价折价追踪</h1>
-            <div class="sub">数据来源: lof_limits.db + fundf10 · SQLite数据库 · 2026-06-15 20:33</div>
+            <div class="sub">数据来源: lof_limits.db · 2026-06-15 21:11</div>
             <div class="sub">数据日期: 2026-06-15</div>
         </div>
 
         <div class="tabs">
             <button class="tab-btn active" onclick="showTab('lof')">LOF基金 (390只)</button>
-            <button class="tab-btn" onclick="showTab('qdii')">QDII ETF (40只)</button>
+            <button class="tab-btn" onclick="showTab('qdii')">QDII ETF (32只)</button>
             <button class="tab-btn" onclick="showTab('nasdaq')">纳指标普 (10只)</button>
-            <button class="tab-btn" onclick="showTab('limit-history')">限额历史</button>
+            <button class="tab-btn" onclick="showTab('limit-history')">限额历史 (380条)</button>
             <button class="tab-btn" onclick="showTab('key-funds')">重点基金限额 (10只)</button>
         </div>
 
@@ -3222,14 +3220,6 @@
                         <td>0.15%</td>
                     </tr>
                     <tr>
-                        <td><a href="https://fund.eastmoney.com/160416.html" target="_blank" class="code-link">160416</a></td>
-                        <td>华安标普全球石油指数(LOF)A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>2.00元</td>
-                        <td>1.20%</td>
-                        <td>0.12%</td>
-                    </tr>
-                    <tr>
                         <td><a href="https://fund.eastmoney.com/160615.html" target="_blank" class="code-link">160615</a></td>
                         <td>鹏华沪深300ETF联接(LOF)A</td>
                         <td class="status-open">开放申购</td>
@@ -3278,30 +3268,6 @@
                         <td>0.10%</td>
                     </tr>
                     <tr>
-                        <td><a href="https://fund.eastmoney.com/161125.html" target="_blank" class="code-link">161125</a></td>
-                        <td>易方达标普500指数人民币A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>10.00元</td>
-                        <td>1.20%</td>
-                        <td>0.12%</td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://fund.eastmoney.com/161126.html" target="_blank" class="code-link">161126</a></td>
-                        <td>易方达标普医疗保健人民币A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>10.00元</td>
-                        <td>1.20%</td>
-                        <td>0.12%</td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://fund.eastmoney.com/161127.html" target="_blank" class="code-link">161127</a></td>
-                        <td>易方达标普生物科技人民币A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>10.00元</td>
-                        <td>1.20%</td>
-                        <td>0.12%</td>
-                    </tr>
-                    <tr>
                         <td><a href="https://fund.eastmoney.com/161128.html" target="_blank" class="code-link">161128</a></td>
                         <td>易方达标普信息科技指数(QDII-LOF)A(人民币)</td>
                         <td class="status-limited">暂停申购</td>
@@ -3334,26 +3300,10 @@
                         <td>0.12%</td>
                     </tr>
                     <tr>
-                        <td><a href="https://fund.eastmoney.com/162411.html" target="_blank" class="code-link">162411</a></td>
-                        <td>华宝标普油气上游股票人民币A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>10.00元</td>
-                        <td>1.50%</td>
-                        <td>0.15%</td>
-                    </tr>
-                    <tr>
                         <td><a href="https://fund.eastmoney.com/162412.html" target="_blank" class="code-link">162412</a></td>
                         <td>华宝医疗ETF联接A</td>
                         <td class="status-open">开放申购</td>
                         <td>无限制</td>
-                        <td>1.20%</td>
-                        <td>0.12%</td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://fund.eastmoney.com/162415.html" target="_blank" class="code-link">162415</a></td>
-                        <td>华宝标普美国消费人民币A</td>
-                        <td class="status-limited">限大额</td>
-                        <td>1000.00元</td>
                         <td>1.20%</td>
                         <td>0.12%</td>
                     </tr>
@@ -3404,14 +3354,6 @@
                         <td>无限制</td>
                         <td>-</td>
                         <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://fund.eastmoney.com/501021.html" target="_blank" class="code-link">501021</a></td>
-                        <td>华宝港股通标普香港上市中国中小盘指数(LOF)A</td>
-                        <td class="status-open">开放申购</td>
-                        <td>无限制</td>
-                        <td>1.00%</td>
-                        <td>0.10%</td>
                     </tr>
                     <tr>
                         <td><a href="https://fund.eastmoney.com/501029.html" target="_blank" class="code-link">501029</a></td>
@@ -3486,14 +3428,6 @@
                         <td>0.12%</td>
                     </tr>
                     <tr>
-                        <td><a href="https://fund.eastmoney.com/501303.html" target="_blank" class="code-link">501303</a></td>
-                        <td>广发恒生中型股指数(LOF)A</td>
-                        <td class="status-open">开放申购</td>
-                        <td>无限制</td>
-                        <td>1.20%</td>
-                        <td>0.12%</td>
-                    </tr>
-                    <tr>
                         <td><a href="https://fund.eastmoney.com/501305.html" target="_blank" class="code-link">501305</a></td>
                         <td>汇添富港股红利ETF联接A</td>
                         <td class="status-open">开放申购</td>
@@ -3529,7 +3463,7 @@
             </table>
         </div>
 <div id="nasdaq" class="tab-content">
-            <h3>纳指标普 ETF</h3>
+            <h3>纳指标普基金</h3>
             <table>
                 <thead>
                     <tr>
@@ -3543,24 +3477,8 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a href="https://fund.eastmoney.com/160416.html" target="_blank" class="code-link">160416</a></td>
-                        <td>华安标普全球石油指数(LOF)A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>2.00元</td>
-                        <td>1.20%</td>
-                        <td>0.12%</td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://fund.eastmoney.com/161125.html" target="_blank" class="code-link">161125</a></td>
-                        <td>易方达标普500指数人民币A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>10.00元</td>
-                        <td>1.20%</td>
-                        <td>0.12%</td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://fund.eastmoney.com/161126.html" target="_blank" class="code-link">161126</a></td>
-                        <td>易方达标普医疗保健人民币A</td>
+                        <td><a href="https://fund.eastmoney.com/161128.html" target="_blank" class="code-link">161128</a></td>
+                        <td>易方达标普信息科技指数(QDII-LOF)A(人民币)</td>
                         <td class="status-limited">暂停申购</td>
                         <td>10.00元</td>
                         <td>1.20%</td>
@@ -3575,8 +3493,24 @@
                         <td>0.12%</td>
                     </tr>
                     <tr>
-                        <td><a href="https://fund.eastmoney.com/161128.html" target="_blank" class="code-link">161128</a></td>
-                        <td>易方达标普信息科技指数(QDII-LOF)A(人民币)</td>
+                        <td><a href="https://fund.eastmoney.com/160416.html" target="_blank" class="code-link">160416</a></td>
+                        <td>华安标普全球石油指数(LOF)A</td>
+                        <td class="status-limited">暂停申购</td>
+                        <td>2.00元</td>
+                        <td>1.20%</td>
+                        <td>0.12%</td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://fund.eastmoney.com/161126.html" target="_blank" class="code-link">161126</a></td>
+                        <td>易方达标普医疗保健人民币A</td>
+                        <td class="status-limited">暂停申购</td>
+                        <td>10.00元</td>
+                        <td>1.20%</td>
+                        <td>0.12%</td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://fund.eastmoney.com/161125.html" target="_blank" class="code-link">161125</a></td>
+                        <td>易方达标普500指数人民币A</td>
                         <td class="status-limited">暂停申购</td>
                         <td>10.00元</td>
                         <td>1.20%</td>
@@ -3628,418 +3562,918 @@
 
         <div id="limit-history" class="tab-content">
             <h3>限额历史变动</h3>
-            <p style="color:#888;margin:10px 0;">此功能需要根据历史数据生成，当前显示最新数据。</p>
             <table>
                 <thead>
                     <tr>
-                        <th>日期</th>
+                        <th>变动日期</th>
                         <th>代码</th>
                         <th>名称</th>
-                        <th>申购状态</th>
-                        <th>申购限额</th>
-                        <th>变动说明</th>
+                        <th>原状态</th>
+                        <th>新状态</th>
+                        <th>原限额</th>
+                        <th>新限额</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160128.html" target="_blank" class="code-link">160128</a></td>
-                        <td>南方金利定开债券A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160143.html" target="_blank" class="code-link">160143</a></td>
-                        <td>南方创业板2年定期开放混合</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160216.html" target="_blank" class="code-link">160216</a></td>
-                        <td>国泰大宗商品(QDII-LOF)A</td>
-                        <td class="status-limited">限大额</td>
-                        <td>1000.00元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160323.html" target="_blank" class="code-link">160323</a></td>
-                        <td>华夏磐泰混合(LOF)A</td>
-                        <td class="status-limited">限大额</td>
-                        <td>1000.00元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160325.html" target="_blank" class="code-link">160325</a></td>
-                        <td>华夏创业板两年定开混合</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160416.html" target="_blank" class="code-link">160416</a></td>
-                        <td>华安标普全球石油指数(LOF)A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>2.00元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160515.html" target="_blank" class="code-link">160515</a></td>
-                        <td>博时安丰18个月定开债A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160529.html" target="_blank" class="code-link">160529</a></td>
-                        <td>博时创业板两年定开混合</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160617.html" target="_blank" class="code-link">160617</a></td>
-                        <td>鹏华丰润债券(LOF)</td>
-                        <td class="status-limited">限大额</td>
-                        <td>1.00万元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160618.html" target="_blank" class="code-link">160618</a></td>
-                        <td>鹏华丰泽债券(LOF)C</td>
-                        <td class="status-limited">限大额</td>
-                        <td>1000.00万元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160632.html" target="_blank" class="code-link">160632</a></td>
-                        <td>鹏华酒A</td>
-                        <td class="status-limited">限大额</td>
-                        <td>20.00万元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160644.html" target="_blank" class="code-link">160644</a></td>
-                        <td>鹏华港美互联股票人民币</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>1.00万元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160719.html" target="_blank" class="code-link">160719</a></td>
-                        <td>嘉实黄金</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>5.00元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160723.html" target="_blank" class="code-link">160723</a></td>
-                        <td>嘉实原油(QDII-LOF)</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>5.00元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160726.html" target="_blank" class="code-link">160726</a></td>
-                        <td>嘉实瑞享定期混合</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/160926.html" target="_blank" class="code-link">160926</a></td>
-                        <td>大成创业板两年定开混合A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161005.html" target="_blank" class="code-link">161005</a></td>
-                        <td>富国天惠成长混合(LOF)A</td>
-                        <td class="status-limited">限大额</td>
-                        <td>2.00万元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161014.html" target="_blank" class="code-link">161014</a></td>
-                        <td>富国汇利回报两年定期开放债券</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161040.html" target="_blank" class="code-link">161040</a></td>
-                        <td>富国创业板两年定开混合</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161116.html" target="_blank" class="code-link">161116</a></td>
-                        <td>易方达黄金主题人民币A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>10.00元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161117.html" target="_blank" class="code-link">161117</a></td>
-                        <td>易方达永旭定开债</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161124.html" target="_blank" class="code-link">161124</a></td>
-                        <td>易方达香港小型股指数A</td>
-                        <td class="status-limited">限大额</td>
-                        <td>3000.00元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161125.html" target="_blank" class="code-link">161125</a></td>
-                        <td>易方达标普500指数人民币A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>10.00元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161126.html" target="_blank" class="code-link">161126</a></td>
-                        <td>易方达标普医疗保健人民币A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>10.00元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161127.html" target="_blank" class="code-link">161127</a></td>
-                        <td>易方达标普生物科技人民币A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>10.00元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161128.html" target="_blank" class="code-link">161128</a></td>
-                        <td>易方达标普信息科技指数(QDII-LOF)A(人民币)</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>10.00元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161129.html" target="_blank" class="code-link">161129</a></td>
-                        <td>易方达原油A类人民币</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>10.00元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161130.html" target="_blank" class="code-link">161130</a></td>
-                        <td>易方达纳斯达克100ETF联接(QDII-LOF)A(人民币)</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>10.00元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161132.html" target="_blank" class="code-link">161132</a></td>
-                        <td>易方达科顺定开混合</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161226.html" target="_blank" class="code-link">161226</a></td>
-                        <td>国投瑞银白银期货(LOF)A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>100.00元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161505.html" target="_blank" class="code-link">161505</a></td>
-                        <td>银河通利债券(LOF)A</td>
-                        <td class="status-limited">限大额</td>
-                        <td>1.00万元</td>
-                        <td>最新状态</td>
-                    </tr>
-                    <tr>
-                        <td>2026-06-15</td>
+                        <td>2026-06-08</td>
                         <td><a href="https://fund.eastmoney.com/161713.html" target="_blank" class="code-link">161713</a></td>
                         <td>招商信用添利债券(LOF)A</td>
-                        <td class="status-limited">限大额</td>
-                        <td>10.00万元</td>
-                        <td>最新状态</td>
+                        <td>开放申购</td>
+                        <td class="change-add">限大额</td>
+                        <td>无限制</td>
+                        <td class="change-add">10.00万元</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161716.html" target="_blank" class="code-link">161716</a></td>
-                        <td>招商双债增强债券(LOF)C</td>
-                        <td class="status-limited">限大额</td>
-                        <td>500.00万元</td>
-                        <td>最新状态</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160926.html" target="_blank" class="code-link">160926</a></td>
+                        <td>大成创业板两年定开混合A</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">无限制</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/165519.html" target="_blank" class="code-link">165519</a></td>
+                        <td>中信保诚中证800医药指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
                         <td><a href="https://fund.eastmoney.com/161725.html" target="_blank" class="code-link">161725</a></td>
                         <td>招商中证白酒指数(LOF)A</td>
-                        <td class="status-limited">限大额</td>
-                        <td>50.00万元</td>
-                        <td>最新状态</td>
+                        <td>限大额</td>
+                        <td class="change-add">限大额</td>
+                        <td>限大额</td>
+                        <td class="change-add">50.00万元</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161729.html" target="_blank" class="code-link">161729</a></td>
-                        <td>招商瑞利灵活配置混合(LOF)A</td>
-                        <td class="status-limited">限大额</td>
-                        <td>100.00万元</td>
-                        <td>最新状态</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161128.html" target="_blank" class="code-link">161128</a></td>
+                        <td>易方达标普信息科技指数(QDII-LOF)A(人民币)</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">10.00元</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/165512.html" target="_blank" class="code-link">165512</a></td>
+                        <td>中信保诚新机遇混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501046.html" target="_blank" class="code-link">501046</a></td>
+                        <td>财通多策略福鑫定开混合</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160632.html" target="_blank" class="code-link">160632</a></td>
+                        <td>鹏华酒A</td>
+                        <td>限大额</td>
+                        <td class="change-add">限大额</td>
+                        <td>限大额</td>
+                        <td class="change-add">20.00万元</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/167003.html" target="_blank" class="code-link">167003</a></td>
+                        <td>平安鼎弘混合(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160324.html" target="_blank" class="code-link">160324</a></td>
+                        <td>华夏磐晟混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
                         <td><a href="https://fund.eastmoney.com/161837.html" target="_blank" class="code-link">161837</a></td>
                         <td>银华大盘两年定开混合</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">无限制</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161908.html" target="_blank" class="code-link">161908</a></td>
-                        <td>万家添利债券(LOF)C</td>
-                        <td class="status-limited">限大额</td>
-                        <td>1000.00万元</td>
-                        <td>最新状态</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/166025.html" target="_blank" class="code-link">166025</a></td>
+                        <td>中欧远见两年定开混合A</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">无限制</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/161912.html" target="_blank" class="code-link">161912</a></td>
-                        <td>万家社会责任18个月定开A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>1000.00元</td>
-                        <td>最新状态</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161127.html" target="_blank" class="code-link">161127</a></td>
+                        <td>易方达标普生物科技人民币A</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">10.00元</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160628.html" target="_blank" class="code-link">160628</a></td>
+                        <td>鹏华中证800地产指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160529.html" target="_blank" class="code-link">160529</a></td>
+                        <td>博时创业板两年定开混合</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161024.html" target="_blank" class="code-link">161024</a></td>
+                        <td>富国中证军工指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161903.html" target="_blank" class="code-link">161903</a></td>
+                        <td>万家行业优选混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501209.html" target="_blank" class="code-link">501209</a></td>
+                        <td>银华富久食品饮料精选混合(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161631.html" target="_blank" class="code-link">161631</a></td>
+                        <td>融通人工智能指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/506008.html" target="_blank" class="code-link">506008</a></td>
+                        <td>长城科创两年定开混合A</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161031.html" target="_blank" class="code-link">161031</a></td>
+                        <td>富国中证工业4.0指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/506005.html" target="_blank" class="code-link">506005</a></td>
+                        <td>博时科创板三年定开混合</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501227.html" target="_blank" class="code-link">501227</a></td>
+                        <td>泓德红利优选混合(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/162605.html" target="_blank" class="code-link">162605</a></td>
+                        <td>景顺长城鼎益混合(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160215.html" target="_blank" class="code-link">160215</a></td>
+                        <td>国泰价值经典混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/168301.html" target="_blank" class="code-link">168301</a></td>
+                        <td>东海祥龙(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161724.html" target="_blank" class="code-link">161724</a></td>
+                        <td>招商中证煤炭等权指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/168204.html" target="_blank" class="code-link">168204</a></td>
+                        <td>国联中证煤炭指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/506000.html" target="_blank" class="code-link">506000</a></td>
+                        <td>南方科创板3年定开混合</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
                         <td><a href="https://fund.eastmoney.com/161914.html" target="_blank" class="code-link">161914</a></td>
                         <td>万家创业板2年定期开放混合A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">无限制</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/162216.html" target="_blank" class="code-link">162216</a></td>
-                        <td>宏利500指数增强(LOF)</td>
-                        <td class="status-limited">限大额</td>
-                        <td>100.00万元</td>
-                        <td>最新状态</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501026.html" target="_blank" class="code-link">501026</a></td>
+                        <td>财通多策略福享混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160644.html" target="_blank" class="code-link">160644</a></td>
+                        <td>鹏华港美互联股票人民币</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">1.00万元</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501089.html" target="_blank" class="code-link">501089</a></td>
+                        <td>方正富邦消费红利指数增强(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161124.html" target="_blank" class="code-link">161124</a></td>
+                        <td>易方达香港小型股指数A</td>
+                        <td>限大额</td>
+                        <td class="change-add">限大额</td>
+                        <td>限大额</td>
+                        <td class="change-add">3000.00元</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501079.html" target="_blank" class="code-link">501079</a></td>
+                        <td>大成科创主题混合(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161126.html" target="_blank" class="code-link">161126</a></td>
+                        <td>易方达标普医疗保健人民币A</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">10.00元</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160416.html" target="_blank" class="code-link">160416</a></td>
+                        <td>华安标普全球石油指数(LOF)A</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">2.00元</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501312.html" target="_blank" class="code-link">501312</a></td>
+                        <td>华宝海外科技股票(QDII-LOF)A</td>
+                        <td>限大额</td>
+                        <td class="change-add">限大额</td>
+                        <td>限大额</td>
+                        <td class="change-add">100.00元</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501200.html" target="_blank" class="code-link">501200</a></td>
+                        <td>民生加银科技创新混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161036.html" target="_blank" class="code-link">161036</a></td>
+                        <td>富国中证娱乐主题指数增强(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501085.html" target="_blank" class="code-link">501085</a></td>
+                        <td>财通科创主题灵活配置混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501007.html" target="_blank" class="code-link">501007</a></td>
+                        <td>汇添富中证互联网医疗指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/163417.html" target="_blank" class="code-link">163417</a></td>
+                        <td>兴全合宜混合(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161815.html" target="_blank" class="code-link">161815</a></td>
+                        <td>银华抗通胀主题(QDII-FOF-LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501025.html" target="_blank" class="code-link">501025</a></td>
+                        <td>鹏华中证香港银行指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501205.html" target="_blank" class="code-link">501205</a></td>
+                        <td>鹏华创新未来混合(LOF)C</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/162412.html" target="_blank" class="code-link">162412</a></td>
+                        <td>华宝医疗ETF联接A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/165516.html" target="_blank" class="code-link">165516</a></td>
+                        <td>中信保诚周期轮动混合(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501301.html" target="_blank" class="code-link">501301</a></td>
+                        <td>华宝港股通恒生中国(香港上市)30ETF联接(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161125.html" target="_blank" class="code-link">161125</a></td>
+                        <td>易方达标普500指数人民币A</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">10.00元</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501077.html" target="_blank" class="code-link">501077</a></td>
+                        <td>富国创新企业灵活配置混合(LOF)A</td>
+                        <td>限大额</td>
+                        <td class="change-add">限大额</td>
+                        <td>限大额</td>
+                        <td class="change-add">500.00万元</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501208.html" target="_blank" class="code-link">501208</a></td>
+                        <td>中欧创新未来混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501095.html" target="_blank" class="code-link">501095</a></td>
+                        <td>中银证券科技创新混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160322.html" target="_blank" class="code-link">160322</a></td>
+                        <td>华夏港股通精选股票发起式(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161726.html" target="_blank" class="code-link">161726</a></td>
+                        <td>招商国证生物医药指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161005.html" target="_blank" class="code-link">161005</a></td>
+                        <td>富国天惠成长混合(LOF)A</td>
+                        <td>限大额</td>
+                        <td class="change-add">限大额</td>
+                        <td>限大额</td>
+                        <td class="change-add">2.00万元</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/165313.html" target="_blank" class="code-link">165313</a></td>
+                        <td>建信优势动力混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161130.html" target="_blank" class="code-link">161130</a></td>
+                        <td>易方达纳斯达克100ETF联接(QDII-LOF)A(人民币)</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">10.00元</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501032.html" target="_blank" class="code-link">501032</a></td>
+                        <td>财通福盛混合发起(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161116.html" target="_blank" class="code-link">161116</a></td>
+                        <td>易方达黄金主题人民币A</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">10.00元</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/166105.html" target="_blank" class="code-link">166105</a></td>
+                        <td>信澳鑫安债券(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501097.html" target="_blank" class="code-link">501097</a></td>
+                        <td>国寿安保科技创新混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160220.html" target="_blank" class="code-link">160220</a></td>
+                        <td>国泰民益混合(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/163418.html" target="_blank" class="code-link">163418</a></td>
+                        <td>兴全合兴混合A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501096.html" target="_blank" class="code-link">501096</a></td>
+                        <td>国联安科创混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160223.html" target="_blank" class="code-link">160223</a></td>
+                        <td>国泰创业板指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/165513.html" target="_blank" class="code-link">165513</a></td>
+                        <td>中信保诚全球商品主题(QDII-FOF-LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/163109.html" target="_blank" class="code-link">163109</a></td>
+                        <td>申万菱信深证成份指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
                         <td><a href="https://fund.eastmoney.com/162411.html" target="_blank" class="code-link">162411</a></td>
                         <td>华宝标普油气上游股票人民币A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>10.00元</td>
-                        <td>最新状态</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">10.00元</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/162415.html" target="_blank" class="code-link">162415</a></td>
-                        <td>华宝标普美国消费人民币A</td>
-                        <td class="status-limited">限大额</td>
-                        <td>1000.00元</td>
-                        <td>最新状态</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501005.html" target="_blank" class="code-link">501005</a></td>
+                        <td>汇添富中证精准医疗指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/162715.html" target="_blank" class="code-link">162715</a></td>
-                        <td>广发聚源债券(LOF)A</td>
-                        <td class="status-limited">限大额</td>
-                        <td>5000.00万元</td>
-                        <td>最新状态</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161908.html" target="_blank" class="code-link">161908</a></td>
+                        <td>万家添利债券(LOF)C</td>
+                        <td>限大额</td>
+                        <td class="change-add">限大额</td>
+                        <td>限大额</td>
+                        <td class="change-add">1000.00万元</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501201.html" target="_blank" class="code-link">501201</a></td>
+                        <td>红土创新科技创新股票(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501303.html" target="_blank" class="code-link">501303</a></td>
+                        <td>广发恒生中型股指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/163415.html" target="_blank" class="code-link">163415</a></td>
+                        <td>兴全商业模式混合(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/168203.html" target="_blank" class="code-link">168203</a></td>
+                        <td>国联国证钢铁行业指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160323.html" target="_blank" class="code-link">160323</a></td>
+                        <td>华夏磐泰混合(LOF)A</td>
+                        <td>限大额</td>
+                        <td class="change-add">限大额</td>
+                        <td>限大额</td>
+                        <td class="change-add">1000.00元</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501015.html" target="_blank" class="code-link">501015</a></td>
+                        <td>财通多策略升级混合(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/164814.html" target="_blank" class="code-link">164814</a></td>
+                        <td>工银双债增强债券</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
                         <td><a href="https://fund.eastmoney.com/162719.html" target="_blank" class="code-link">162719</a></td>
                         <td>广发道琼斯石油指数人民币A</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>10.00元</td>
-                        <td>最新状态</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">10.00元</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/162720.html" target="_blank" class="code-link">162720</a></td>
-                        <td>广发创业板两年定开混合</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/168401.html" target="_blank" class="code-link">168401</a></td>
+                        <td>红土精选混合(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/163208.html" target="_blank" class="code-link">163208</a></td>
-                        <td>诺安油气能源</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>500.00元</td>
-                        <td>最新状态</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161030.html" target="_blank" class="code-link">161030</a></td>
+                        <td>富国中证体育产业指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/163407.html" target="_blank" class="code-link">163407</a></td>
-                        <td>兴全沪深300指数(LOF)A</td>
-                        <td class="status-limited">限大额</td>
-                        <td>1000.00万元</td>
-                        <td>最新状态</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/163003.html" target="_blank" class="code-link">163003</a></td>
+                        <td>长信利鑫债券(LOF)C</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/164210.html" target="_blank" class="code-link">164210</a></td>
-                        <td>天弘同利债券(LOF)C</td>
-                        <td class="status-limited">限大额</td>
-                        <td>1000.00万元</td>
-                        <td>最新状态</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160128.html" target="_blank" class="code-link">160128</a></td>
+                        <td>南方金利定开债券A</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">无限制</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/164701.html" target="_blank" class="code-link">164701</a></td>
-                        <td>汇添富黄金及贵金属(QDII-LOF-FOF)A</td>
-                        <td class="status-limited">限大额</td>
-                        <td>500.00元</td>
-                        <td>最新状态</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/162607.html" target="_blank" class="code-link">162607</a></td>
+                        <td>景顺长城资源垄断混合(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
                     </tr>
                     <tr>
-                        <td>2026-06-15</td>
-                        <td><a href="https://fund.eastmoney.com/164810.html" target="_blank" class="code-link">164810</a></td>
-                        <td>工银纯债定开债</td>
-                        <td class="status-limited">暂停申购</td>
-                        <td>无限制</td>
-                        <td>最新状态</td>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161722.html" target="_blank" class="code-link">161722</a></td>
+                        <td>招商丰泰混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160629.html" target="_blank" class="code-link">160629</a></td>
+                        <td>鹏华中证传媒指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161226.html" target="_blank" class="code-link">161226</a></td>
+                        <td>国投瑞银白银期货(LOF)A</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">100.00元</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161716.html" target="_blank" class="code-link">161716</a></td>
+                        <td>招商双债增强债券(LOF)C</td>
+                        <td>限大额</td>
+                        <td class="change-add">限大额</td>
+                        <td>限大额</td>
+                        <td class="change-add">500.00万元</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160633.html" target="_blank" class="code-link">160633</a></td>
+                        <td>鹏华中证全指证券公司指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161122.html" target="_blank" class="code-link">161122</a></td>
+                        <td>易方达中证万得生物科技指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/160607.html" target="_blank" class="code-link">160607</a></td>
+                        <td>鹏华价值优势混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161119.html" target="_blank" class="code-link">161119</a></td>
+                        <td>易方达中债新综指发起式(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/501082.html" target="_blank" class="code-link">501082</a></td>
+                        <td>博时科创主题灵活配置混合(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/163402.html" target="_blank" class="code-link">163402</a></td>
+                        <td>兴全趋势投资混合(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161831.html" target="_blank" class="code-link">161831</a></td>
+                        <td>银华恒生国企指数(QDII-LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161610.html" target="_blank" class="code-link">161610</a></td>
+                        <td>融通领先成长混合(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161217.html" target="_blank" class="code-link">161217</a></td>
+                        <td>国投瑞银中证资源指数(LOF)A</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/161715.html" target="_blank" class="code-link">161715</a></td>
+                        <td>招商大宗商品(LOF)</td>
+                        <td>开放申购</td>
+                        <td class="change-remove">开放申购</td>
+                        <td>无限额</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/506002.html" target="_blank" class="code-link">506002</a></td>
+                        <td>易方达科创板两年定开混合</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">暂停申购</td>
+                        <td>暂停申购</td>
+                        <td class="change-add">无限制</td>
+                    </tr>
+                    <tr>
+                        <td>2026-06-05</td>
+                        <td><a href="https://fund.eastmoney.com/162415.html" target="_blank" class="code-link">162415</a></td>
+                        <td>华宝标普美国消费人民币A</td>
+                        <td>限大额</td>
+                        <td class="change-add">限大额</td>
+                        <td>限大额</td>
+                        <td class="change-add">1000.00元</td>
                     </tr>
                 </tbody>
             </table>
@@ -4157,15 +4591,12 @@
 
     <script>
         function showTab(tabName) {
-            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-
-            // Show selected tab
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
         }
