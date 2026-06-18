@@ -126,19 +126,25 @@ def run_daily_update():
             shutil.copy2(report_path, arbitrage_path)
             print(f"📤 已同步最新报告 (github-pages/): {arbitrage_path}")
     
-    # 4.2 同步到根目录（GitHub Pages / (root) 模式）
-    # 套利报告 → 带日期的版本
-    if os.path.exists(dated_report_path):
-        root_dated_path = os.path.join(BASE_DIR, dated_report_name)
-        shutil.copy2(dated_report_path, root_dated_path)
-        print(f"📤 已同步 dated 报告 (根目录): {root_dated_path}")
+    # 4.2 同步到本地服务器目录（带重试，避免Windows文件锁定）
+    LOCAL_SERVER_DIR = os.path.join(BASE_DIR, "..", "local-server")
+    if os.path.exists(LOCAL_SERVER_DIR):
+        import time
+        for fname in [dated_report_name, "arbitrage.html"]:
+            src = os.path.join(BASE_DIR, fname) if fname == "arbitrage.html" else dated_report_path
+            dst = os.path.join(LOCAL_SERVER_DIR, "arbitrage-tracker", fname)
+            if os.path.exists(src):
+                for attempt in range(3):
+                    try:
+                        shutil.copy2(src, dst)
+                        print(f"📤 已同步到本地服务器: {dst}")
+                        break
+                    except PermissionError:
+                        if attempt < 2:
+                            time.sleep(1)
+                        else:
+                            print(f"⚠️ 无法写入 {dst}，文件可能被占用")
     
-    # 套利报告 → arbitrage.html（最新版本）
-    if os.path.exists(report_path):
-        root_arbitrage_path = os.path.join(BASE_DIR, "arbitrage.html")
-        shutil.copy2(report_path, root_arbitrage_path)
-        print(f"📤 已同步最新报告 (根目录): {root_arbitrage_path}")
-
     print(f"\n✅ 更新完成！报告路径: {report_path}")
     return report_path
 

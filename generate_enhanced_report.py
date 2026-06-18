@@ -623,6 +623,69 @@ def get_tdx_opportunities():
     return opportunities
 
 
+# ============================================================
+# 5. 推荐标的数据库读写
+# ============================================================
+
+def update_recommended_targets(actionable_opps):
+    """将当日推荐标的写入 recommended_targets 表
+    - 已存在：累计推荐次数+1，更新推荐日期、最近价格、价格日期
+    - 不存在：新增记录，同时记录首次价格和最近价格
+    """
+    today = datetime.now().strftime("%Y-%m-%d")
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    updated, inserted = 0, 0
+    for opp in actionable_opps:
+        code = opp.get('code', '')
+        name = opp.get('name', '')
+        opp_type = opp.get('type', opp.get('category', ''))
+        price = opp.get('price', 0)
+        if not code or code == '-':
+            continue
+        try:
+            c.execute(
+                "SELECT id, cumulative_count, first_price FROM recommended_targets WHERE code=? AND type=?",
+                (code, opp_type)
+            )
+            row = c.fetchone()
+            if row:
+                # 已存在：更新最近价格、价格日期、累计次数
+                new_count = row[1] + 1
+                c.execute(
+                    "UPDATE recommended_targets SET last_recommend_date=?, t_minus_1_price=?, price_date=?, cumulative_count=? WHERE id=?",
+                    (today, price, today, new_count, row[0])
+                )
+                updated += 1
+            else:
+                # 不存在：新增，首次价格=最近价格=当前价格
+                c.execute(
+                    "INSERT INTO recommended_targets (code, name, type, first_recommend_date, last_recommend_date, first_price, t_minus_1_price, price_date, cumulative_count) VALUES (?,?,?,?,?,?,?,?,1)",
+                    (code, name, opp_type, today, today, price, price, today)
+                )
+                inserted += 1
+        except Exception as e:
+            print(f"  [!] 推荐标的写入失败 {code}: {e}")
+    conn.commit()
+    conn.close()
+    print(f"  [OK] 推荐标的入库: 新增{inserted}条，更新{updated}条")
+
+
+def get_historical_recommendations():
+    """读取历史推荐记录，按累计推荐次数降序"""
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    c.execute(
+        "SELECT code, name, type, first_recommend_date, last_recommend_date, "
+        "first_price, t_minus_1_price, price_date, cumulative_count "
+        "FROM recommended_targets ORDER BY cumulative_count DESC, last_recommend_date DESC"
+    )
+    rows = c.fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
 def get_today_opportunities():
     """汇总当日实时套利机会（仅含实际可操作标的）
     数据源优先级: AKShare(集思录) > 东方财富 > TickFlow(备用)
@@ -756,7 +819,11 @@ def generate_enhanced_report():
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
     
     actionable_opps, base_channels, tdx_warnings = get_today_opportunities()
-    
+
+    # 将当日推荐标的写入数据库
+    update_recommended_targets(actionable_opps)
+    historical = get_historical_recommendations()
+
     # 显示前25个
     display_opps = actionable_opps[:25]
     
@@ -977,6 +1044,38 @@ tr:hover {{ background: #f8fafc; }}
 </table>
 </div>
 
+<!-- ===== 第三部分：历史推荐数据记录 ===== -->
+"""
+    if historical:
+        html += '<div class="section-title" style="border-left-color:#8b5cf6">📊 历史推荐数据记录 <span class="sub">累计推荐次数 ≥ 1 的标的，按次数降序</span></div>'
+        html += '<div class="table-wrapper" style="margin-bottom:24px">'
+        html += '<table><thead><tr>'
+        html += '<th>代码</th><th>标的名称</th><th>类型</th>'
+        html += '<th>首次推荐</th><th>末次推荐</th>'
+        html += '<th>最近价格</th><th>首次价格</th><th>价格日期</th><th>累计推荐</th>'
+        html += '</tr></thead><tbody>'
+        for rec in historical:
+            price_str = f'{rec["t_minus_1_price"]:.4f}' if rec.get('t_minus_1_price') else '—'
+            first_price_str = f'{rec["first_price"]:.4f}' if rec.get('first_price') else '—'
+            price_date_str = rec.get('price_date', '—') or '—'
+            html += f'<tr>'
+            html += f'<td style="font-weight:600;color:#1e293b">{rec.get("code","—")}</td>'
+            html += f'<td>{rec.get("name","—")}</td>'
+            html += f'<td>{type_badge(rec.get("type","—"))}</td>'
+            html += f'<td style="font-size:0.82em;color:#475569">{rec.get("first_recommend_date","—")}</td>'
+            html += f'<td style="font-size:0.82em;color:#475569">{rec.get("last_recommend_date","—")}</td>'
+            html += f'<td style="font-weight:600;color:#059669">{price_str}</td>'
+            html += f'<td style="font-weight:600;color:#8b5cf6">{first_price_str}</td>'
+            html += f'<td style="font-size:0.82em;color:#64748b">{price_date_str}</td>'
+            cnt = rec.get('cumulative_count', 1)
+            cnt_color = '#ef4444' if cnt >= 5 else ('#f59e0b' if cnt >= 3 else '#22c55e')
+            html += f'<td><span class="badge" style="background:{cnt_color}20;color:{cnt_color};font-size:0.9em">{cnt} 次</span></td>'
+            html += f'</tr>'
+        html += '</tbody></table></div>'
+    else:
+        html += '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:20px;text-align:center;color:#64748b;font-size:0.9em;margin-bottom:24px">暂无历史推荐记录</div>'
+
+    html += """
 <div class="footer">
     <p>📊 套利渠道追踪系统 v2 &copy; 2026 | 每日自动更新</p>
     <p style="font-size:0.8em;margin-top:4px">数据来源：东方财富 push2 API | fundgz | fundf10 | 通达信 tdx-connector (QDII ETF)</p>
