@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "outputDirectory": ".",
+  "buildCommand": "echo 'static site'",
+  "installCommand": "echo 'no install'",
+  "framework": null,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/$1" }
+  ]
+}
